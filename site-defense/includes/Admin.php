@@ -56,7 +56,7 @@ final class Admin
         });
         add_action('admin_enqueue_scripts', static function (string $screen): void {
             if ($screen === 'toplevel_page_site-defense') {
-                wp_enqueue_style('site-defense-admin', plugins_url('assets/admin.css', SITE_DEFENSE_DIR . '/site-defense.php'), [], '0.7.0');
+                wp_enqueue_style('site-defense-admin', plugins_url('assets/admin.css', SITE_DEFENSE_DIR . '/site-defense.php'), [], '1.0.1');
             }
         });
         add_action('admin_post_sd_action', [self::class, 'action']);
@@ -454,10 +454,13 @@ final class Admin
                 self::databaseAudit();
                 break;
             case 'incidents':
+                echo '<div class="sd-incident-workspace">';
                 self::responseMode();
                 self::incidents();
+                echo '<div class="sd-incident-history">';
                 self::timeline();
                 self::journal();
+                echo '</div></div>';
                 break;
             case 'notifications':
                 self::notifications();
@@ -712,21 +715,34 @@ final class Admin
 
     private static function responseMode(): void
     {
-        echo '<h2>' . esc_html__('Incident mode', 'site-defense') . '</h2>';
-        echo '<p>' . esc_html__('Temporarily blocks plugin and theme installation, uploads and file editing through WordPress. Use WP-CLI for emergency maintenance.', 'site-defense') . '</p>';
         $status = ResponseMode::status();
+        $canManage = current_user_can('promote_users');
+        echo '<section class="sd-response-panel" aria-labelledby="sd-response-title"><div class="sd-response-header"><div>';
+        echo '<h2 id="sd-response-title">' . esc_html__('Incident mode', 'site-defense') . '</h2>';
         if ($status['active']) {
-            echo '<p>' . esc_html(sprintf(__('Active until %s.', 'site-defense'), self::time($status['until']))) . '</p>';
+            echo '<p class="sd-incident-status sd-incident-status--active">' .
+                esc_html(sprintf(__('Active until %s.', 'site-defense'), self::time($status['until']))) . '</p>';
+        } else {
+            echo '<p class="sd-incident-status">' . esc_html__('Off', 'site-defense') . '</p>';
         }
-        if (!current_user_can('promote_users')) {
-            return;
-        }
-        if ($status['active']) {
+        echo '<p class="sd-response-description">' . esc_html__('Temporarily blocks plugin and theme installation, uploads and file editing through WordPress. Use WP-CLI for emergency maintenance.', 'site-defense') . '</p></div>';
+        if ($status['active'] && $canManage) {
+            echo '<div class="sd-response-actions">';
             self::fileConfirmation('response_stop', '', __('Allow plugin and theme installation and file editing again?', 'site-defense'),
                 __('Disable incident mode', 'site-defense'));
-            return;
+            echo '</div>';
         }
+        echo '</div>';
+        if ($canManage && !$status['active']) {
+            self::responseControls();
+        }
+        echo '</section>';
+    }
+
+    private static function responseControls(): void
+    {
         $preview = get_transient('sd_response_plan_' . get_current_user_id());
+        echo '<div class="sd-response-controls">';
         if ($preview) {
             $plan = $preview['plan'];
             echo '<h3>' . esc_html__('Incident plan', 'site-defense') . '</h3>';
@@ -745,19 +761,25 @@ final class Admin
                 echo '</ul><p>' . esc_html__('Revoked sessions and application passwords cannot be restored.', 'site-defense') . '</p>';
             }
             $field = '<input type="hidden" name="plan_token" value="' . esc_attr($preview['token']) . '">';
+            echo '<div class="sd-incident-actions">';
             self::fileConfirmation('response_start', '', __('Apply this plan and enable incident mode?', 'site-defense'),
                 __('Enable incident mode', 'site-defense'), $field);
             self::form('response_cancel', '', __('Discard plan', 'site-defense'));
-            return;
+            echo '</div>';
+        } else {
+            $fields = '<div class="sd-response-fields"><label>' . esc_html__('Duration in minutes', 'site-defense') .
+                '<input type="number" name="minutes" value="60" min="5" max="1440" required></label>';
+            $fields .= '<details class="sd-response-revoke"><summary>' .
+                esc_html__('Revoke sessions and application passwords', 'site-defense') . '</summary><div class="sd-response-inputs">';
+            $fields .= '<label>' . esc_html__('Browser sessions · User IDs separated by commas', 'site-defense') .
+                '<input type="text" name="sessions" class="regular-text" maxlength="1024"></label>';
+            $fields .= '<label>' . esc_html__('Application passwords · user ID:UUID pairs separated by commas', 'site-defense') .
+                '<input type="text" name="passwords" class="regular-text" maxlength="4096"></label></div>';
+            $fields .= '<p><a href="' . esc_url(self::url('login') . '#sd-privileged-access') . '">' .
+                esc_html__('Find privileged accounts and application password IDs', 'site-defense') . '</a></p></details></div>';
+            self::form('response_preview', $fields, __('Preview incident plan', 'site-defense'), primary: true);
         }
-        $fields = '<p><label>' . esc_html__('Duration in minutes', 'site-defense') . ' <input type="number" name="minutes" value="60" min="5" max="1440" required></label></p>';
-        $fields .= '<p><label>' . esc_html__('Browser sessions · User IDs separated by commas', 'site-defense') .
-            '<br><input type="text" name="sessions" class="regular-text" maxlength="1024"></label></p>';
-        $fields .= '<p><label>' . esc_html__('Application passwords · user ID:UUID pairs separated by commas', 'site-defense') .
-            '<br><input type="text" name="passwords" class="regular-text" maxlength="4096"></label></p>';
-        $fields .= '<p><a href="' . esc_url(self::url('login') . '#sd-privileged-access') . '">' .
-            esc_html__('Find privileged accounts and application password IDs', 'site-defense') . '</a></p>';
-        self::form('response_preview', $fields, __('Preview incident plan', 'site-defense'), primary: true);
+        echo '</div>';
     }
 
     private static function heartbeat(): void
@@ -814,34 +836,46 @@ final class Admin
 
     private static function incidents(): void
     {
-        echo '<h2 id="sd-incidents">' . esc_html__('Security incidents', 'site-defense') . '</h2>';
         $selected = absint(State::field($_GET, 'incident'));
         $page = max(1, min(100000, absint(State::field($_GET, 'incidents_page'))));
         $entry = $selected ? Incidents::get($selected) : null;
         $entries = $entry ? [$entry] : Incidents::recent($page);
+        echo '<section aria-labelledby="sd-incidents"><div class="sd-incident-heading"><h2 id="sd-incidents">' .
+            esc_html__('Security incidents', 'site-defense') . '</h2>';
+        if ($entry) {
+            echo '<a href="' . esc_url(self::url('incidents') . '#sd-incidents') . '">' . esc_html__('All incidents', 'site-defense') . '</a>';
+        }
+        echo '</div>';
         if (!$entries) {
-            echo '<p>' . esc_html__('No security incidents recorded.', 'site-defense') . '</p>';
+            echo '<p class="sd-incident-empty">' . esc_html__('No security incidents recorded.', 'site-defense') . '</p></section>';
             return;
         }
+        echo '<div class="sd-incident-list">';
+        $canRespond = Quarantine::available();
         foreach (array_slice($entries, 0, 25) as $incident) {
             $context = json_decode($incident['context'], true) ?: [];
             $vulnerability = $context['vulnerability'] ?? null;
-            $severity = match ($incident['severity']) {
-                'blocked' => __('Attempt blocked', 'site-defense'),
-                'review' => $vulnerability ? __('Update review needed', 'site-defense') : __('Review possible intrusion', 'site-defense'),
-                default => __('Information', 'site-defense'),
+            [$tone, $severity] = match ($incident['severity']) {
+                'blocked' => ['blocked', __('Attempt blocked', 'site-defense')],
+                'review' => ['review', $vulnerability ? __('Update review needed', 'site-defense') : __('Review required', 'site-defense')],
+                default => ['info', __('Information', 'site-defense')],
             };
-            echo '<section><h3>#' . esc_html($incident['id']) . ' ' . esc_html(State::eventLabel($incident['kind'])) . '</h3>';
-            echo '<p>' . esc_html($severity) . ' · ' . esc_html(self::time((int) $incident['last_seen'])) . ' · ';
-            echo esc_html(sprintf(__('Occurrences: %d', 'site-defense'), $incident['hits'])) . '</p>';
+            $title = State::eventLabel($incident['kind']);
+            $detail = State::eventDetail($incident['detail']);
+            echo '<details class="sd-incident"' . ($entry ? ' open' : '') . '><summary><span class="sd-incident-label"><strong>' .
+                esc_html($title) . '</strong><span class="sd-incident-meta">#' . esc_html($incident['id']) . ' · ' .
+                esc_html(self::time((int) $incident['last_seen'])) . ' · ' .
+                esc_html(sprintf(__('Occurrences: %d', 'site-defense'), $incident['hits'])) . '</span></span>';
+            echo '<span class="sd-incident-statuses"><span class="sd-incident-status sd-incident-status--' . esc_attr($tone) . '">' . esc_html($severity) . '</span>';
+            if ($incident['resolved']) {
+                echo '<span class="sd-incident-status sd-incident-status--reviewed">' . esc_html__('Reviewed', 'site-defense') . '</span>';
+            }
+            echo '</span></summary><div class="sd-incident-details">';
             if ($vulnerability) {
                 echo '<p>' . nl2br(esc_html(Vulnerabilities::describe($vulnerability, false))) . '</p>';
                 echo '<p><a href="' . esc_url(self::url('vulnerabilities')) . '">' . esc_html__('Known vulnerabilities', 'site-defense') . '</a></p>';
-            } else {
-                echo '<p>' . esc_html(State::eventDetail($incident['detail'])) . '</p>';
-            }
-            if ($incident['resolved']) {
-                echo '<p>' . esc_html__('Reviewed', 'site-defense') . '</p>';
+            } elseif ($detail !== '' && $detail !== $title) {
+                echo '<p>' . esc_html($detail) . '</p>';
             }
             $delivery = json_decode($incident['delivery'], true) ?: [];
             foreach ($delivery as $channel => $status) {
@@ -858,7 +892,8 @@ final class Admin
             if (!empty($context['actor_id'])) {
                 echo '<p>' . esc_html(sprintf(__('Action performed by user ID: %d', 'site-defense'), $context['actor_id'])) . '</p>';
             }
-            if (Quarantine::available()) {
+            if ($canRespond) {
+                echo '<div class="sd-incident-actions">';
                 if (!empty($context['user_id']) && current_user_can('edit_user', $context['user_id'])) {
                     self::fileConfirmation('incident_sessions', (string) $incident['id'],
                         __('Confirm signing this user out on every device', 'site-defense'), __('Revoke browser sessions', 'site-defense'));
@@ -875,17 +910,22 @@ final class Admin
                     self::fileConfirmation('incident_scan', (string) $incident['id'],
                         __('Confirm starting a full file scan', 'site-defense'), __('Start scan', 'site-defense'));
                 }
-                self::fileConfirmation('incident_resolve', (string) $incident['id'],
-                    __('Confirm that you reviewed this incident', 'site-defense'), __('Mark as reviewed', 'site-defense'));
+                if (!$incident['resolved']) {
+                    self::fileConfirmation('incident_resolve', (string) $incident['id'],
+                        __('Confirm that you reviewed this incident', 'site-defense'), __('Mark as reviewed', 'site-defense'));
+                }
+                echo '</div>';
             }
-            echo '</section>';
+            echo '</div></details>';
         }
+        echo '</div><div class="sd-incident-pagination">';
         if (!$selected && $page > 1) {
             echo '<p><a href="' . esc_url(add_query_arg('incidents_page', $page - 1) . '#sd-incidents') . '">' . esc_html__('Newer events', 'site-defense') . '</a></p>';
         }
         if (!$selected && count($entries) > 25) {
             echo '<p><a href="' . esc_url(add_query_arg('incidents_page', $page + 1) . '#sd-incidents') . '">' . esc_html__('Older events', 'site-defense') . '</a></p>';
         }
+        echo '</div></section>';
     }
 
     private static function earlyProtection(): void

@@ -2641,3 +2641,12 @@ msgid ""
 "The Site Defense ZIP failed verification. The installed plugin was kept."
 msgstr ""
 "Архів Site Defense не пройшов перевірку. Встановлену версію збережено."
+
+msgid "Revoke sessions and application passwords"
+msgstr "Відкликання сеансів і паролів застосунків"
+
+msgid "All incidents"
+msgstr "Усі інциденти"
+
+msgid "Review required"
+msgstr "Потрібна перевірка"
