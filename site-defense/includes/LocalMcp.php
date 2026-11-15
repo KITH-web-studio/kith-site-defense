@@ -80,7 +80,7 @@ final class LocalMcp
             if ($request->method === 'initialize' && $version === null && is_string($params->protocolVersion ?? null)) {
                 $version = in_array($params->protocolVersion, self::PROTOCOLS, true) ? $params->protocolVersion : self::PROTOCOLS[0];
                 self::result($id, ['protocolVersion' => $version, 'capabilities' => ['tools' => (object) []],
-                    'serverInfo' => ['name' => 'site-defense', 'version' => '1.0.0-rc.2']]);
+                    'serverInfo' => ['name' => 'site-defense', 'version' => '1.0.0']]);
             } elseif ($request->method === 'ping') {
                 self::result($id, (object) []);
             } elseif (!$ready) {
