@@ -1,0 +1,11 @@
+{
+  "url": "",
+  "public_key": "oYEXxM4GpyoGvpcrm0a8kuaUZcl65FS/wMUBwOyjBCM=",
+  "seed_version": 1794695634,
+  "traversal_fixed": {
+    "7.1": "7.1.2",
+    "7.0": "7.0.6",
+    "6.9": "6.9.9",
+    "6.8": "6.8.10"
+  }
+}

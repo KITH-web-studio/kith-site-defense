@@ -1,0 +1,2643 @@
+# Site Defense translations.
+msgid ""
+msgstr ""
+"Project-Id-Version: Site Defense 1.0.0-rc.2\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+#: site-defense.php:4
+msgid ""
+"Local WordPress login protection, vulnerability checks and file monitoring."
+msgstr "Захист входу у WordPress, перевірка вразливостей і моніторинг файлів."
+
+#: includes/Admin.php:9
+msgid "Limit login attempts and unify credential errors"
+msgstr "Обмежувати спроби входу й показувати єдине повідомлення про помилку"
+
+#: includes/Admin.php:10
+msgid "Require authentication for WordPress REST user profiles"
+msgstr ""
+"Вимагати входу для перегляду профілів користувачів через REST API WordPress"
+
+#: includes/Admin.php:11
+msgid "Disable authenticated XML-RPC methods"
+msgstr "Вимкнути методи XML-RPC, які потребують авторизації"
+
+#: includes/Admin.php:12
+msgid "Disable incoming XML-RPC pingbacks"
+msgstr "Вимкнути вхідні пінгбеки XML-RPC"
+
+#: includes/Admin.php:13
+msgid "Disable editing PHP files in the dashboard"
+msgstr "Заборонити редагування PHP-файлів в адмінпанелі"
+
+#: includes/Admin.php:14
+msgid "Download vulnerability database updates daily"
+msgstr "Щодня завантажувати оновлення бази вразливостей"
+
+#: includes/Admin.php:15
+msgid "Block known exploits with tested rules"
+msgstr "Блокувати відомі експлойти перевіреними правилами"
+
+#: includes/Admin.php:16
+msgid "Log possible injections and executable uploads"
+msgstr ""
+"Записувати до журналу можливі ін’єкції та завантаження виконуваних файлів"
+
+#: includes/Admin.php:17
+msgid "Schedule a daily file scan"
+msgstr "Запускати сканування файлів щодня"
+
+#: includes/Admin.php:18
+msgid "Send email when privileged access changes"
+msgstr "Надсилати листи про зміни привілейованого доступу"
+
+#: includes/Admin.php:24 includes/State.php:93
+msgid "New privileged account"
+msgstr "Новий привілейований обліковий запис"
+
+#: includes/Admin.php:24 includes/State.php:94
+msgid "User role change"
+msgstr "Зміна ролі користувача"
+
+#: includes/Admin.php:25 includes/State.php:96
+msgid "Application password created or revoked"
+msgstr "Створення або відкликання пароля застосунку"
+
+#: includes/Admin.php:25 includes/State.php:97
+msgid "Two-factor setting changed"
+msgstr "Зміна налаштування двофакторної автентифікації"
+
+#: includes/Admin.php:48 includes/Incidents.php:105
+msgid "Permission denied."
+msgstr "Недостатньо прав."
+
+#: includes/Admin.php:81
+msgid "Settings saved."
+msgstr "Налаштування збережено."
+
+#: includes/Admin.php:130
+msgid "Login limits reset."
+msgstr "Обмеження на вхід скинуто."
+
+#: includes/Admin.php:134
+msgid "A vulnerability check is queued."
+msgstr "Перевірку вразливостей додано до черги."
+
+#: includes/Admin.php:108 includes/Admin.php:116 includes/Admin.php:145
+msgid "Choose a valid signed database package."
+msgstr "Виберіть дійсний підписаний пакет бази."
+
+#: includes/Admin.php:167
+msgid "Debug log check finished."
+msgstr "Перевірку журналу налагодження завершено."
+
+#: includes/Admin.php:175
+msgid "Standard login address restored."
+msgstr "Стандартну адресу входу відновлено."
+
+#: includes/Admin.php:179
+msgid "Pending address change cancelled."
+msgstr "Зміну адреси входу скасовано."
+
+#: includes/Admin.php:66 includes/Admin.php:183 includes/Admin.php:470
+#: includes/Cli.php:408 includes/TwoFactor.php:134 includes/TwoFactor.php:187
+msgid "Two-factor enrollment requires HTTPS and PHP Sodium."
+msgstr ""
+"Для налаштування двофакторної автентифікації потрібні HTTPS і розширення PHP"
+" Sodium."
+
+#: includes/Admin.php:190
+msgid "Enter the setup key in your authenticator, then verify a code."
+msgstr ""
+"Введіть ключ у застосунку-автентифікаторі й підтвердьте налаштування кодом."
+
+#: includes/Admin.php:200
+msgid "Invalid code or expired setup."
+msgstr "Неправильний код або час налаштування вичерпано."
+
+#: includes/Admin.php:212
+msgid "Two-factor authentication disabled."
+msgstr "Двофакторну автентифікацію вимкнено."
+
+#: includes/Admin.php:214
+msgid "Current password did not match."
+msgstr "Поточний пароль введено неправильно."
+
+#: includes/Admin.php:55 includes/Admin.php:59 includes/Admin.php:223
+#: includes/Incidents.php:132 includes/Quarantine.php:100
+msgid "Invalid or unauthorized request."
+msgstr "Запит недійсний або у вас недостатньо прав."
+
+#: includes/Admin.php:226 includes/Incidents.php:117
+msgid "The password could not be revoked."
+msgstr "Не вдалося відкликати пароль."
+
+#: includes/Admin.php:226 includes/Cli.php:320 includes/Incidents.php:117
+msgid "Application password revoked."
+msgstr "Пароль застосунку відкликано."
+
+#: includes/Admin.php:238 includes/TwoFactor.php:204
+msgid "Save these recovery codes now. Each can be used once."
+msgstr "Збережіть резервні коди зараз. Кожен код можна використати один раз."
+
+#: includes/Admin.php:242
+msgid "Return to Site Defense"
+msgstr "Повернутися до Site Defense"
+
+#: includes/Admin.php:243 includes/TwoFactor.php:203
+msgid "Two-factor recovery codes"
+msgstr "Резервні коди двофакторної автентифікації"
+
+#: includes/Admin.php:260
+msgid "Never"
+msgstr "Ніколи"
+
+#: includes/Admin.php:29 includes/Admin.php:80 includes/Admin.php:295
+#: includes/Admin.php:296 includes/Cli.php:414 includes/State.php:109
+msgid "Protection settings"
+msgstr "Налаштування захисту"
+
+#: includes/Admin.php:301
+msgid ""
+"WordPress can expose public authors through REST. Hiding profiles reduces "
+"account discovery. Login throttling applies independently."
+msgstr ""
+"WordPress може показувати публічні профілі авторів через REST API. Якщо "
+"приховати профілі, облікові записи буде складніше виявити. Обмеження входу "
+"діють незалежно."
+
+#: includes/Admin.php:302
+msgid "Trusted reverse proxy IP"
+msgstr "IP довіреного зворотного проксі"
+
+#: includes/Admin.php:303
+msgid "Only set this for a proxy that overwrites X-Real-IP on every request."
+msgstr ""
+"Указуйте адресу лише для проксі, який перезаписує X-Real-IP у кожному "
+"запиті."
+
+#: includes/Admin.php:304
+msgid "Notification email"
+msgstr "Адреса для сповіщень"
+
+#: includes/Admin.php:305
+msgid "Email events"
+msgstr "Події для сповіщень електронною поштою"
+
+#: includes/Admin.php:311
+msgid "Exempt WordPress page routing from CVE-2026-87902 rule"
+msgstr "Виключити обробку сторінок WordPress із правила CVE-2026-87902"
+
+#: includes/Admin.php:312
+msgid "Save protection settings"
+msgstr "Зберегти налаштування захисту"
+
+#: includes/Admin.php:313
+msgid "Configuration checks"
+msgstr "Перевірка конфігурації"
+
+#: includes/Admin.php:315
+msgid "PHP editor available to this account"
+msgstr "Цьому обліковому запису доступний редактор PHP"
+
+#: includes/Admin.php:316
+msgid "HTTPS detected for the dashboard"
+msgstr "В адмінпанелі використовується HTTPS"
+
+#: includes/Admin.php:317
+msgid "HTTPS enforced for dashboard and login"
+msgstr "Для адмінпанелі та входу обов’язковий HTTPS"
+
+#: includes/Admin.php:318
+msgid "Debugging enabled"
+msgstr "Налагодження ввімкнено"
+
+#: includes/Admin.php:319
+msgid "PHP displays errors"
+msgstr "PHP показує помилки"
+
+#: includes/Admin.php:322
+msgid "Yes"
+msgstr "Так"
+
+#: includes/Admin.php:304 includes/Admin.php:322 includes/Admin.php:325
+#: includes/Admin.php:333 includes/Admin.php:367 includes/Admin.php:497
+#: includes/Admin.php:525 includes/Admin.php:529 includes/Admin.php:541
+#: includes/Admin.php:651 includes/Admin.php:668 includes/Alerts.php:87
+#: includes/Alerts.php:88 includes/Alerts.php:112 includes/Incidents.php:114
+#: includes/LoginRoute.php:143 includes/Malware.php:97
+#: includes/Scanner.php:152 includes/State.php:110
+msgid "No"
+msgstr "Ні"
+
+#: includes/Admin.php:325
+msgid "Debug log HTTP check"
+msgstr "Доступність журналу налагодження через HTTP"
+
+#: includes/Admin.php:325
+msgid "Not checked"
+msgstr "Перевірку не виконано"
+
+#: includes/Admin.php:326
+msgid ""
+"For HTTPS enforcement and PHP error display, check the hosting configuration"
+" and wp-config.php."
+msgstr ""
+"Параметри HTTPS і показу помилок PHP перевірте в налаштуваннях хостингу та "
+"файлі wp-config.php."
+
+#: includes/Admin.php:327
+msgid "Check debug log access"
+msgstr "Перевірити доступ до журналу налагодження"
+
+#: site-defense.php:16 site-defense.php:29 site-defense.php:33
+#: includes/Admin.php:27 includes/Admin.php:130 includes/Admin.php:170
+#: includes/Admin.php:301 includes/Admin.php:450 includes/Admin.php:455
+#: includes/Admin.php:459 includes/Incidents.php:60 includes/Login.php:6
+#: includes/Login.php:126 includes/Login.php:131 includes/LoginRoute.php:6
+#: includes/LoginRoute.php:120 includes/LoginRoute.php:124
+#: includes/State.php:98 includes/State.php:100 includes/TwoFactor.php:82
+#: includes/TwoFactor.php:139 includes/TwoFactor.php:165
+#: includes/TwoFactor.php:173 includes/TwoFactor.php:176
+#: includes/TwoFactor.php:224 includes/TwoFactor.php:239
+msgid "Login"
+msgstr "Вхід"
+
+#: includes/Admin.php:451
+msgid "Reset login limits"
+msgstr "Скинути обмеження на вхід"
+
+#: includes/Admin.php:455
+msgid "Active address"
+msgstr "Поточна адреса"
+
+#: includes/Admin.php:456
+msgid "Restore standard address"
+msgstr "Відновити стандартну адресу"
+
+#: includes/Admin.php:459
+msgid "Test in a private window"
+msgstr "Перевірте в приватному вікні"
+
+#: includes/Admin.php:460
+msgid "Cancel pending address"
+msgstr "Скасувати зміну адреси"
+
+#: includes/Admin.php:462
+msgid ""
+"If you lose access, deactivate Site Defense via WP-CLI or rename its plugin "
+"directory in your hosting file manager."
+msgstr ""
+"Якщо втратите доступ, деактивуйте Site Defense через WP-CLI або перейменуйте"
+" папку плагіна у файловому менеджері хостингу."
+
+#: includes/Admin.php:463
+msgid "New login path"
+msgstr "Новий шлях для входу"
+
+#: includes/Admin.php:463
+msgid "Test new address"
+msgstr "Перевірити нову адресу"
+
+#: includes/Admin.php:211 includes/Admin.php:212 includes/Admin.php:237
+#: includes/Admin.php:464 includes/State.php:129 includes/State.php:130
+#: includes/TwoFactor.php:202 includes/TwoFactor.php:217
+msgid "Two-factor authentication"
+msgstr "Двофакторна автентифікація"
+
+#: includes/Admin.php:214 includes/Admin.php:468
+msgid "Current password"
+msgstr "Поточний пароль"
+
+#: includes/Admin.php:468
+msgid "Disable for my account"
+msgstr "Вимкнути для мого облікового запису"
+
+#: includes/Admin.php:472
+msgid "Use time-based codes. Setup key"
+msgstr "Використовуйте коди TOTP. Ключ налаштування"
+
+#: includes/Admin.php:473
+msgid "Authenticator code"
+msgstr "Код із застосунку-автентифікатора"
+
+#: includes/Admin.php:473
+msgid "Verify and enable for my account"
+msgstr "Перевірити код і ввімкнути для мого облікового запису"
+
+#: includes/Admin.php:475
+msgid "Set up for my account"
+msgstr "Налаштувати для мого облікового запису"
+
+#: includes/Admin.php:484 includes/Admin.php:506
+msgid "Known vulnerabilities"
+msgstr "Відомі вразливості"
+
+#: includes/Admin.php:485
+msgid "Database published"
+msgstr "Дата публікації бази"
+
+#: includes/Admin.php:486
+msgid "Last completed comparison"
+msgstr "Останнє звіряння версій"
+
+#: includes/Admin.php:487
+msgid "Last successful update check"
+msgstr "Остання успішна перевірка оновлень"
+
+#: includes/Admin.php:493
+#, php-format
+msgid ""
+"Installed components with advisory records in this database — %1$s of %2$s"
+msgstr "Установлені компоненти, щодо яких у базі є записи — %1$s із %2$s"
+
+#: includes/Admin.php:497
+msgid ""
+"No database is installed. Import a signed database package to enable version"
+" matching."
+msgstr ""
+"Базу не встановлено. Імпортуйте підписаний пакет, щоб почати перевірку "
+"версій."
+
+#: includes/Admin.php:500
+msgid "Use a signed package to update the database manually."
+msgstr "Для оновлення бази вручну використовуйте підписаний пакет."
+
+#: includes/Admin.php:502
+msgid "Check installed versions"
+msgstr "Перевірити встановлені версії"
+
+#: includes/Admin.php:503
+msgid "Update database now"
+msgstr "Оновити базу зараз"
+
+#: includes/Admin.php:504
+msgid "Signed database package"
+msgstr "Підписаний пакет бази"
+
+#: includes/Admin.php:504
+msgid "Import database"
+msgstr "Імпортувати базу"
+
+#: includes/Admin.php:492 includes/Admin.php:508
+#: includes/Vulnerabilities.php:171 includes/Vulnerabilities.php:198
+msgid "Component"
+msgstr "Компонент"
+
+#: includes/Admin.php:508
+msgid "Advisory"
+msgstr "Опис вразливості"
+
+#: includes/Admin.php:509
+msgid "Affected range"
+msgstr "Версії з уразливістю"
+
+#: includes/Admin.php:509
+msgid "Fixed in"
+msgstr "Виправлено у версії"
+
+#: early-firewall.php:52 early-firewall.php:53 early-firewall.php:57
+#: includes/Admin.php:510 includes/Admin.php:524
+#: includes/Vulnerabilities.php:271 includes/Vulnerabilities.php:293
+msgid "Rule"
+msgstr "Правило"
+
+#: includes/Admin.php:512
+msgid "(inactive)"
+msgstr "(неактивний)"
+
+#: includes/Admin.php:515
+msgid "Informational"
+msgstr "Інформаційний запис"
+
+#: includes/Admin.php:523
+msgid "Unknown"
+msgstr "Невідомо"
+
+#: includes/Admin.php:525
+msgid "Active on WordPress page routing"
+msgstr "Діє під час обробки сторінок WordPress"
+
+#: includes/Admin.php:525
+msgid "No active rule"
+msgstr "Немає активного правила"
+
+#: includes/Admin.php:529
+msgid "No matching advisories in the last comparison."
+msgstr "Під час останнього звіряння збігів не знайдено."
+
+#: includes/Admin.php:543 includes/Admin.php:576
+msgid "File scan"
+msgstr "Сканування файлів"
+
+#: includes/Admin.php:545 includes/Cli.php:33 includes/Cli.php:34
+#: includes/Cli.php:120 includes/Cli.php:162 includes/Cli.php:460
+#: includes/Cli.php:478
+msgid "Status"
+msgstr "Стан"
+
+#: includes/Admin.php:545
+msgid "Last completed scan"
+msgstr "Останнє завершене сканування"
+
+#: includes/Admin.php:546
+msgid "Files inspected"
+msgstr "Перевірено файлів"
+
+#: includes/Admin.php:547 includes/Scanner.php:262 includes/Scanner.php:263
+msgid "Findings"
+msgstr "Знахідки"
+
+#: includes/Admin.php:541
+msgid "Not started"
+msgstr "Не запускалося"
+
+#: includes/Admin.php:538
+msgid "Running"
+msgstr "Виконується"
+
+#: includes/Admin.php:539
+msgid "Paused"
+msgstr "Призупинено"
+
+#: includes/Admin.php:540
+msgid "Complete"
+msgstr "Завершено"
+
+#: includes/Admin.php:565
+msgid ""
+"Waiting for WP-Cron. Check the site scheduler if progress stays paused."
+msgstr ""
+"Очікування WP-Cron. Якщо сканування не просувається, перевірте планувальник "
+"завдань сайту."
+
+#: includes/Admin.php:568
+msgid "Pause scan"
+msgstr "Призупинити сканування"
+
+#: includes/Admin.php:413 includes/Admin.php:570
+msgid "Start scan"
+msgstr "Запустити сканування"
+
+#: includes/Admin.php:572
+msgid "Resume scan"
+msgstr "Продовжити сканування"
+
+#: includes/Admin.php:576
+msgid "File scan findings"
+msgstr "Результати сканування файлів"
+
+#: includes/Admin.php:547 includes/Admin.php:577 includes/Cli.php:46
+#: includes/Cli.php:258 includes/Incidents.php:123 includes/Quarantine.php:97
+#: includes/Scanner.php:262 includes/Scanner.php:263
+msgid "Finding"
+msgstr "Знахідка"
+
+#: includes/Admin.php:578
+msgid "File or component"
+msgstr "Файл або компонент"
+
+#: includes/Admin.php:699
+msgid "Privileged access"
+msgstr "Привілейований доступ"
+
+#: includes/Admin.php:723
+msgid "Last used"
+msgstr "Останнє використання"
+
+#: includes/Admin.php:727
+msgid "Confirm revocation"
+msgstr "Підтвердити відкликання"
+
+#: includes/Admin.php:405 includes/Admin.php:728
+msgid "Revoke application password"
+msgstr "Відкликати пароль застосунку"
+
+#: includes/Admin.php:733
+msgid "Previous accounts"
+msgstr "Попередні облікові записи"
+
+#: includes/Admin.php:736
+msgid "Next accounts"
+msgstr "Наступні облікові записи"
+
+#: includes/Admin.php:746 includes/Admin.php:747
+msgid "Recent security events"
+msgstr "Останні події безпеки"
+
+#: includes/Admin.php:300 includes/Admin.php:748
+msgid "When"
+msgstr "Коли"
+
+#: includes/Admin.php:749 includes/State.php:144 includes/State.php:148
+#: includes/State.php:162
+msgid "Event"
+msgstr "Подія"
+
+#: includes/Admin.php:749
+msgid "Details"
+msgstr "Подробиці"
+
+#: includes/Admin.php:420 includes/Admin.php:755
+msgid "Newer events"
+msgstr "Новіші події"
+
+#: includes/Admin.php:423 includes/Admin.php:758
+msgid "Older events"
+msgstr "Давніші події"
+
+#: includes/Hardening.php:60
+msgid "User profiles require authentication."
+msgstr "Для перегляду профілів користувачів увійдіть у систему."
+
+#: includes/Hardening.php:92 includes/Hardening.php:97
+#: includes/Hardening.php:102 includes/Hardening.php:107
+#: includes/Hardening.php:115
+msgid "Unable to verify"
+msgstr "Не вдалося перевірити"
+
+#: includes/Hardening.php:113
+msgid "Accessible over HTTP"
+msgstr "Доступний через HTTP"
+
+#: includes/Hardening.php:115
+msgid "Access denied"
+msgstr "Доступ закрито"
+
+#: includes/LoginRoute.php:26
+msgid "Choose an unused path of 4–60 lowercase letters, digits or hyphens."
+msgstr ""
+"Виберіть вільний шлях завдовжки від 4 до 60 символів. Допустимі малі "
+"латинські літери, цифри й дефіси."
+
+#: includes/LoginRoute.php:29
+msgid "This is already the active login path."
+msgstr "Цей шлях уже використовується для входу."
+
+#: includes/LoginRoute.php:32
+msgid ""
+"Open the test address in a private window and sign in as the same "
+"administrator within 15 minutes."
+msgstr ""
+"Відкрийте тестову адресу в приватному вікні й протягом 15 хвилин увійдіть "
+"під тим самим обліковим записом адміністратора."
+
+#: includes/LoginRoute.php:59
+msgid "Custom login address verified and activated."
+msgstr "Нову адресу входу перевірено й увімкнено."
+
+#: includes/LoginRoute.php:143
+msgid "Not found."
+msgstr "Сторінку не знайдено."
+
+#: includes/Vulnerabilities.php:95
+msgid "The update endpoint has not been configured in this build."
+msgstr "У цій збірці адресу оновлень не налаштовано."
+
+#: includes/Vulnerabilities.php:102
+msgid "Unable to reach the database publisher."
+msgstr "Не вдалося зв’язатися із сервером оновлень бази."
+
+#: includes/Vulnerabilities.php:106
+msgid "Invalid update manifest."
+msgstr "Некоректний маніфест оновлення."
+
+#: includes/Vulnerabilities.php:110
+msgid "The publisher returned an older database."
+msgstr "Сервер повернув старішу версію бази."
+
+#: includes/Vulnerabilities.php:113
+msgid "Vulnerability database is current."
+msgstr "База вразливостей актуальна."
+
+#: includes/Vulnerabilities.php:120
+msgid "Unable to download the database package."
+msgstr "Не вдалося завантажити пакет бази."
+
+#: includes/Cli.php:493 includes/Vulnerabilities.php:150
+msgid "Invalid database package size."
+msgstr "Неприпустимий розмір пакета бази."
+
+#: includes/Vulnerabilities.php:154
+msgid "This installation cannot verify database signatures."
+msgstr "На цьому сайті недоступна перевірка підпису бази."
+
+#: includes/Vulnerabilities.php:158
+msgid "Database signature verification failed."
+msgstr "Підпис бази не пройшов перевірку."
+
+#: includes/Vulnerabilities.php:167
+msgid "Invalid or incompatible database format."
+msgstr "Некоректний або несумісний формат бази."
+
+#: includes/Vulnerabilities.php:172
+msgid "Invalid database component entry."
+msgstr "Некоректний запис про компонент у базі."
+
+#: includes/Vulnerabilities.php:179
+msgid "A database import is already running."
+msgstr "Імпорт бази вже виконується."
+
+#: includes/Vulnerabilities.php:184
+msgid ""
+"This database is already installed or older than the installed version."
+msgstr "Цю версію бази вже встановлено або вона старіша за встановлену."
+
+#: includes/Vulnerabilities.php:189
+msgid "Unable to store the database package."
+msgstr "Не вдалося зберегти пакет бази."
+
+#: includes/Cli.php:201 includes/Vulnerabilities.php:195
+msgid "Vulnerability database updated."
+msgstr "Базу вразливостей оновлено."
+
+#: includes/Vulnerabilities.php:294
+msgid "CVE-2026-87902 · WordPress page routing"
+msgstr "CVE-2026-87902 · обробка сторінок WordPress"
+
+#: early-firewall.php:66 includes/EarlyProtection.php:236
+#: includes/Vulnerabilities.php:295
+msgid "Request blocked."
+msgstr "Запит заблоковано."
+
+#: includes/Vulnerabilities.php:307
+msgid "Possible injection or traversal in request parameters."
+msgstr ""
+"У параметрах запиту виявлено можливу ін’єкцію або спробу обходу шляху."
+
+#: includes/Vulnerabilities.php:313
+msgid "Request contains an executable file upload."
+msgstr "Запит містить завантаження виконуваного файла."
+
+#: includes/Login.php:94 includes/Login.php:101
+msgid "Too many login attempts."
+msgstr "Забагато спроб входу."
+
+#: includes/Login.php:101
+msgid "Too many login attempts. Try again later."
+msgstr "Забагато спроб входу. Спробуйте пізніше."
+
+#: includes/Login.php:136
+msgid "Invalid login details."
+msgstr "Неправильні дані для входу."
+
+#: includes/Login.php:126
+msgid "Login attempts paused for an IP and account pair."
+msgstr "Вхід тимчасово обмежено для поєднання IP-адреси й облікового запису."
+
+#: includes/Login.php:131
+msgid "Login attempts paused for a source IP."
+msgstr "Вхід тимчасово обмежено для IP-адреси джерела."
+
+#: includes/Login.php:134
+msgid "Repeated failures for one account identifier."
+msgstr "Повторні невдалі спроби входу для одного ідентифікатора."
+
+#: includes/TwoFactor.php:131
+msgid "Use an application password for this integration."
+msgstr "Використовуйте пароль застосунку для цієї інтеграції."
+
+#: includes/TwoFactor.php:143
+msgid "Unable to start the second-factor check."
+msgstr "Не вдалося почати перевірку другого фактора."
+
+#: includes/TwoFactor.php:163
+msgid "Sign in again to start a new verification."
+msgstr "Увійдіть знову, щоб почати нову перевірку."
+
+#: includes/TwoFactor.php:169
+msgid "This verification has expired. Sign in again."
+msgstr "Час перевірки вичерпано. Увійдіть знову."
+
+#: includes/TwoFactor.php:174
+msgid "Invalid verification request."
+msgstr "Недійсний запит перевірки."
+
+#: includes/TwoFactor.php:178
+msgid "Too many verification attempts. Try again later."
+msgstr "Забагато спроб перевірки. Спробуйте пізніше."
+
+#: includes/TwoFactor.php:215
+msgid "The code is invalid or has already been used."
+msgstr "Код неправильний або вже використаний."
+
+#: includes/TwoFactor.php:222
+msgid "Authenticator or recovery code"
+msgstr "Код із застосунку або резервний код"
+
+#: includes/TwoFactor.php:225
+msgid "Verify and sign in"
+msgstr "Підтвердити й увійти"
+
+#: includes/Scanner.php:35
+msgid "A scan operation is already running."
+msgstr "Операція сканування вже виконується."
+
+#: includes/Cli.php:77 includes/Scanner.php:127
+msgid "Scan paused."
+msgstr "Сканування призупинено."
+
+#: includes/Cli.php:88 includes/Cli.php:321 includes/Scanner.php:150
+msgid "Scan is queued."
+msgstr "Сканування додано до черги."
+
+#: includes/Scanner.php:152
+msgid "No scan to resume or pause."
+msgstr "Немає сканування, яке можна продовжити або призупинити."
+
+msgid "Unreadable directory"
+msgstr "Каталог недоступний для читання"
+
+#: includes/FileWatch.php:190 includes/Incidents.php:124
+#: includes/Scanner.php:12 includes/Scanner.php:289
+msgid "Executable file in uploads"
+msgstr "Виконуваний файл у папці завантажень"
+
+#: includes/Malware.php:97
+msgid "File exceeds scan size limit"
+msgstr "Файл перевищує обмеження розміру для сканування"
+
+#: includes/Scanner.php:13 includes/Scanner.php:296
+msgid "Differs from official checksum"
+msgstr "Контрольна сума відрізняється від офіційної"
+
+#: includes/FileWatch.php:192 includes/PhpAnalyzer.php:224
+#: includes/Scanner.php:14
+msgid "Suspicious code signature: obfuscated execution"
+msgstr "Сигнатура підозрілого коду — приховане виконання"
+
+#: includes/FileWatch.php:192 includes/PhpAnalyzer.php:219
+#: includes/Scanner.php:15
+msgid "Suspicious code signature: request passed to shell"
+msgstr ""
+"Сигнатура підозрілого коду — дані запиту передаються командній оболонці"
+
+#: includes/Scanner.php:350
+msgid "Official checksums unavailable"
+msgstr "Офіційні контрольні суми недоступні"
+
+#: includes/State.php:38
+msgid "Site Defense currently supports single-site WordPress installations."
+msgstr "Site Defense підтримує встановлення WordPress з одним сайтом."
+
+#: includes/Admin.php:27 includes/Admin.php:301 includes/State.php:98
+msgid "Login throttling"
+msgstr "Обмеження спроб входу"
+
+#: includes/Admin.php:28 includes/State.php:99
+msgid "Repeated login failures"
+msgstr "Повторні помилки входу"
+
+#: includes/State.php:100
+msgid "Login address changed"
+msgstr "Зміна адреси входу"
+
+#: includes/Admin.php:27 includes/State.php:101
+msgid "Request blocked by firewall"
+msgstr "Блокування запиту міжмережевим екраном"
+
+#: includes/State.php:102
+msgid "Suspicious request"
+msgstr "Підозрілий запит"
+
+#: includes/Admin.php:28 includes/State.php:95
+msgid "User capabilities changed"
+msgstr "Зміна прав користувача"
+
+#: includes/State.php:124
+#, php-format
+msgid "New privileged user #%d"
+msgstr "Новий привілейований користувач №%d"
+
+#: includes/State.php:125
+#, php-format
+msgid "Role change for user #%1$d (%2$s)"
+msgstr "Змінено роль користувача №%1$d (%2$s)"
+
+#: includes/State.php:126
+#, php-format
+msgid "Capability metadata changed for user #%d"
+msgstr "Змінено права користувача №%d"
+
+#: includes/State.php:127
+#, php-format
+msgid "Application password created for user #%d"
+msgstr "Створено пароль застосунку для користувача №%d"
+
+#: includes/State.php:128
+#, php-format
+msgid "Application password revoked for user #%d"
+msgstr "Відкликано пароль застосунку користувача №%d"
+
+#: includes/State.php:129
+#, php-format
+msgid "Two-factor authentication enabled for user #%d"
+msgstr "Увімкнено двофакторну автентифікацію для користувача №%d"
+
+#: includes/State.php:130
+#, php-format
+msgid "Two-factor authentication was disabled for user #%d"
+msgstr "Вимкнено двофакторну автентифікацію для користувача №%d"
+
+#: includes/Admin.php:285 includes/Cli.php:271 includes/Quarantine.php:82
+#: includes/Quarantine.php:253
+msgid "Quarantine storage is unavailable."
+msgstr "Сховище карантину недоступне."
+
+#: includes/Quarantine.php:93 includes/ScanReport.php:96
+msgid ""
+"This finding is no longer available. Scan again before quarantining the "
+"file."
+msgstr ""
+"Ця знахідка більше недоступна. Повторіть сканування, щоб перемістити файл у "
+"карантин."
+
+#: includes/Quarantine.php:110
+msgid "The file is missing or its location cannot be verified."
+msgstr "Файл відсутній або його розташування не вдалося перевірити."
+
+#: includes/Quarantine.php:115
+msgid ""
+"This file is required by the running site. Keep it in place to preserve "
+"access to recovery."
+msgstr ""
+"Цей файл завантажено активним сайтом. Залиште його на місці, щоб зберегти "
+"доступ до відновлення."
+
+#: includes/Quarantine.php:119
+msgid "The file could not be opened."
+msgstr "Не вдалося відкрити файл."
+
+#: includes/Quarantine.php:124
+msgid "This file exceeds the quarantine size limit or is not a regular file."
+msgstr ""
+"Розмір файла перевищує ліміт карантину або об’єкт не є звичайним файлом."
+
+#: includes/Quarantine.php:130 includes/ScanReport.php:81
+msgid "The file changed since it was scanned. Scan it again before moving it."
+msgstr ""
+"Файл змінився після перевірки. Повторіть сканування перед переміщенням."
+
+#: includes/Quarantine.php:141
+msgid "The quarantine copy could not be verified. The original file was kept."
+msgstr ""
+"Не вдалося перевірити копію в карантині. Початковий файл залишився на місці."
+
+#: includes/Quarantine.php:151
+msgid ""
+"A verified copy is in quarantine. The source changed before it could be "
+"removed."
+msgstr ""
+"Перевірену копію збережено в карантині. Початковий файл змінився до "
+"видалення й залишився на місці."
+
+#: includes/Quarantine.php:157
+msgid ""
+"A verified copy is in quarantine. The server could not remove the original "
+"file."
+msgstr ""
+"Перевірену копію збережено в карантині. Серверу не вдалося видалити "
+"початковий файл."
+
+#: includes/Cli.php:284 includes/Cli.php:322 includes/Quarantine.php:161
+msgid "File moved to quarantine."
+msgstr "Файл переміщено до карантину."
+
+#: includes/Quarantine.php:263
+msgid "This quarantine entry is no longer available."
+msgstr "Цей запис карантину більше недоступний."
+
+#: includes/Quarantine.php:267 includes/Quarantine.php:300
+msgid ""
+"The original folder is missing or cannot be verified. The copy remains in "
+"quarantine."
+msgstr ""
+"Початкова папка відсутня або її не вдалося перевірити. Копія залишилася в "
+"карантині."
+
+#: includes/Quarantine.php:271 includes/Quarantine.php:308
+msgid ""
+"A file already exists at the original path. The copy remains in quarantine."
+msgstr "За початковим шляхом уже є файл. Копія залишилася в карантині."
+
+#: includes/Quarantine.php:275
+msgid "Unable to prepare the file for restoration."
+msgstr "Не вдалося підготувати файл до відновлення."
+
+#: includes/Quarantine.php:279
+msgid "The quarantine copy failed its integrity check."
+msgstr "Копія в карантині не пройшла перевірку цілісності."
+
+#: includes/Quarantine.php:309 includes/Quarantine.php:323
+msgid "The file could not be restored. The copy remains in quarantine."
+msgstr "Не вдалося відновити файл. Копія залишилася в карантині."
+
+#: includes/Cli.php:289 includes/Quarantine.php:293
+msgid "File restored to its original location."
+msgstr "Файл відновлено за початковим шляхом."
+
+#: includes/State.php:103
+msgid "File quarantined"
+msgstr "Файл у карантині"
+
+#: includes/Cli.php:289 includes/Quarantine.php:293 includes/State.php:104
+msgid "File restored"
+msgstr "Файл відновлено"
+
+#: includes/Admin.php:580 includes/Admin.php:673
+msgid "Actions"
+msgstr "Дії"
+
+#: includes/Admin.php:410 includes/Admin.php:610
+msgid "Confirm removing the file from its original location"
+msgstr "Підтверджую видалення файла з початкового місця"
+
+#: includes/Admin.php:410 includes/Admin.php:611
+msgid "Move to quarantine"
+msgstr "До карантину"
+
+#: site-defense.php:16 includes/Admin.php:54 includes/Admin.php:58
+#: includes/Admin.php:154 includes/Admin.php:157 includes/Admin.php:280
+#: includes/Admin.php:284 includes/Admin.php:285 includes/Admin.php:399
+#: includes/Admin.php:408 includes/Admin.php:433 includes/Admin.php:607
+#: includes/Admin.php:609 includes/Admin.php:614 includes/Admin.php:656
+#: includes/Admin.php:665 includes/Admin.php:666 includes/Admin.php:670
+#: includes/Admin.php:671 includes/Admin.php:673 includes/Admin.php:674
+#: includes/Admin.php:686 includes/Cli.php:112 includes/Cli.php:114
+#: includes/Cli.php:270 includes/Cli.php:271 includes/Cli.php:275
+#: includes/Cli.php:284 includes/Cli.php:289 includes/Incidents.php:122
+#: includes/Incidents.php:123 includes/Quarantine.php:6
+#: includes/Quarantine.php:82 includes/Quarantine.php:253
+#: includes/ScanReport.php:76 includes/ScanReport.php:78
+msgid "Quarantine"
+msgstr "Карантин"
+
+#: includes/Admin.php:668
+msgid "No files in quarantine."
+msgstr "Карантин порожній."
+
+#: includes/Admin.php:670
+msgid ""
+"Quarantined copies are stored in the database. Restore a file only if you "
+"trust it."
+msgstr ""
+"Копії файлів зберігаються в базі даних. Відновлюйте файл, лише якщо "
+"довіряєте йому."
+
+#: includes/Admin.php:672
+msgid "Original file"
+msgstr "Початковий файл"
+
+#: includes/Admin.php:673
+msgid "Quarantined on"
+msgstr "Переміщено до карантину"
+
+#: includes/Admin.php:678
+msgid "Confirm restoring the file to its original location"
+msgstr "Підтверджую відновлення файла за початковим шляхом"
+
+#: includes/Admin.php:678
+msgid "Restore file"
+msgstr "Відновити файл"
+
+#: includes/Admin.php:684
+msgid "Newer quarantined files"
+msgstr "Новіші файли в карантині"
+
+#: includes/Admin.php:687
+msgid "Older quarantined files"
+msgstr "Давніші файли в карантині"
+
+#: includes/Admin.php:124
+msgid "A file change check is queued."
+msgstr "Перевірку змін файлів додано до черги."
+
+#: includes/Admin.php:343
+msgid "A secret is stored. Leave blank to keep it."
+msgstr "Секрет збережено. Залиште поле порожнім, щоб зберегти його."
+
+#: includes/Admin.php:337
+msgid "A token is stored. Leave blank to keep it."
+msgstr "Токен збережено. Залиште поле порожнім, щоб зберегти його."
+
+#: includes/EarlyProtection.php:62
+msgid ""
+"Another auto_prepend_file setting exists. Configure the early loader in your"
+" hosting panel."
+msgstr ""
+"Уже є інше налаштування auto_prepend_file. Підключіть ранній завантажувач у "
+"панелі хостингу."
+
+#: includes/Admin.php:372
+msgid "Attempt blocked"
+msgstr "Спробу заблоковано"
+
+#: includes/Cli.php:319 includes/Cli.php:354 includes/Incidents.php:109
+#: includes/Incidents.php:110 includes/State.php:107 includes/State.php:131
+msgid "Browser sessions revoked"
+msgstr "Сеанси браузера відкликано"
+
+#: includes/State.php:131
+#, php-format
+msgid "Browser sessions revoked for user #%d"
+msgstr "Відкликано сеанси користувача №%d"
+
+#: includes/Cli.php:319 includes/Incidents.php:110
+msgid "Browser sessions revoked."
+msgstr "Сеанси браузера відкликано."
+
+#: includes/Admin.php:356
+msgid "Check file changes now"
+msgstr "Перевірити зміни файлів"
+
+#: includes/Admin.php:435
+msgid "Configure early protection"
+msgstr "Налаштувати ранній захист"
+
+#: includes/Admin.php:437
+msgid "Confirm changing the managed .user.ini and uploads .htaccess blocks"
+msgstr ""
+"Підтверджую зміну блоків Site Defense у .user.ini та .htaccess папки "
+"завантажень"
+
+#: includes/Admin.php:405
+msgid "Confirm revoking this application password"
+msgstr "Підтверджую відкликання цього пароля застосунку"
+
+#: includes/Admin.php:402
+msgid "Confirm signing this user out on every device"
+msgstr "Підтверджую вихід цього користувача на всіх пристроях"
+
+#: includes/Admin.php:413
+msgid "Confirm starting a full file scan"
+msgstr "Підтверджую запуск повного сканування файлів"
+
+#: includes/Admin.php:415
+msgid "Confirm that you reviewed this incident"
+msgstr "Підтверджую перевірку цього інциденту"
+
+#: includes/Admin.php:26 includes/State.php:106
+msgid "Critical file changed"
+msgstr "Змінено критично важливий файл"
+
+#: includes/Admin.php:386
+msgid "Delivered"
+msgstr "Доставлено"
+
+#: includes/Alerts.php:125
+#, php-format
+msgid "Delivery failed for %s. Check channel settings."
+msgstr "Не вдалося доставити в %s. Перевірте налаштування каналу."
+
+#: includes/Admin.php:347
+msgid ""
+"Delivery runs in the background with retries. Use a system scheduler every "
+"minute for predictable response time."
+msgstr ""
+"Доставка виконується у фоні з повторними спробами. Для передбачуваного часу "
+"реакції запускайте системний планувальник щохвилини."
+
+#: includes/Admin.php:435
+msgid "Disable early protection"
+msgstr "Вимкнути ранній захист"
+
+#: includes/Admin.php:101 includes/Admin.php:429 includes/Admin.php:432
+#: includes/EarlyProtection.php:45 includes/EarlyProtection.php:46
+#: includes/EarlyProtection.php:81 includes/EarlyProtection.php:130
+msgid "Early protection"
+msgstr "Ранній захист"
+
+#: includes/EarlyProtection.php:81
+msgid ""
+"Early protection configured. Verify it after the PHP INI cache expires."
+msgstr ""
+"Ранній захист налаштовано. Перевірте його після оновлення кешу PHP INI."
+
+#: includes/Admin.php:101
+msgid "Early protection disabled."
+msgstr "Ранній захист вимкнено."
+
+#: includes/Admin.php:432
+msgid "Early protection has not been verified."
+msgstr "Ранній захист ще не перевірено."
+
+#: includes/EarlyProtection.php:46
+msgid ""
+"Early protection is not active yet. Check hosting settings and the PHP INI "
+"cache delay."
+msgstr ""
+"Ранній захист поки не діє. Перевірте налаштування хостингу та затримку кешу "
+"PHP INI."
+
+#: includes/Admin.php:432 includes/EarlyProtection.php:45
+msgid "Early protection verified."
+msgstr "Ранній захист перевірено."
+
+#: includes/Admin.php:334
+msgid ""
+"Email uses the event selection above. Telegram and webhook receive all "
+"incident types. Blocked attempts are grouped into five-minute summaries."
+msgstr ""
+"Для пошти використовується вибраний вище список подій. У Telegram і webhook "
+"надсилаються всі типи інцидентів. Заблоковані спроби об’єднуються у зведення"
+" за п’ять хвилин."
+
+#: includes/Alerts.php:116
+msgid "Enable a notification channel first."
+msgstr "Спочатку ввімкніть канал сповіщень."
+
+#: includes/Alerts.php:77
+msgid "Enter a Telegram bot token before enabling this channel."
+msgstr "Введіть токен бота Telegram перед увімкненням каналу."
+
+#: includes/Alerts.php:80
+msgid "Enter a signing secret before enabling the webhook."
+msgstr "Введіть секрет підпису перед увімкненням webhook."
+
+#: includes/Admin.php:337
+msgid "Enter the bot token from BotFather."
+msgstr "Введіть токен бота, отриманий у BotFather."
+
+#: includes/EarlyProtection.php:189
+msgid "Firewall package signature verification failed."
+msgstr "Підпис пакета правил не пройшов перевірку."
+
+#: includes/Admin.php:442
+msgid "Firewall rule version"
+msgstr "Версія правил міжмережевого екрана"
+
+#: includes/Cli.php:223 includes/EarlyProtection.php:219
+msgid "Firewall rules updated."
+msgstr "Правила міжмережевого екрана оновлено."
+
+#: includes/Admin.php:440
+msgid ""
+"For Nginx, apply this rule before the general PHP location and reload the "
+"server configuration."
+msgstr ""
+"Для Nginx додайте це правило перед загальним блоком PHP і перезавантажте "
+"конфігурацію сервера."
+
+#: includes/Admin.php:444
+msgid "Import firewall rules"
+msgstr "Імпортувати правила"
+
+#: includes/Cli.php:323 includes/Incidents.php:130
+msgid "Incident marked as reviewed."
+msgstr "Інцидент позначено як перевірений."
+
+#: includes/Incidents.php:99
+msgid "Incident not found."
+msgstr "Інцидент не знайдено."
+
+#: includes/Admin.php:374 includes/Admin.php:515
+msgid "Information"
+msgstr "Інформація"
+
+#: includes/Alerts.php:58
+msgid "Invalid Telegram bot token."
+msgstr "Некоректний токен бота Telegram."
+
+#: includes/Alerts.php:63
+msgid "Invalid Telegram chat ID."
+msgstr "Некоректний chat ID Telegram."
+
+#: includes/EarlyProtection.php:194 includes/EarlyProtection.php:199
+#: includes/EarlyProtection.php:204 includes/EarlyProtection.php:216
+msgid "Invalid or older firewall rule package."
+msgstr "Пакет правил некоректний або містить стару версію."
+
+#: includes/Admin.php:352
+msgid "Last completed file change check"
+msgstr "Остання завершена перевірка змін файлів"
+
+#: includes/Admin.php:350
+msgid "Last notification worker run"
+msgstr "Останній запуск доставки сповіщень"
+
+#: includes/Admin.php:415
+msgid "Mark as reviewed"
+msgstr "Позначити як перевірений"
+
+#: includes/Incidents.php:114
+msgid "No application password is attached to this incident."
+msgstr "Із цим інцидентом не пов’язано пароль застосунку."
+
+#: includes/Admin.php:367
+msgid "No security incidents recorded."
+msgstr "Інцидентів безпеки поки немає."
+
+#: includes/Admin.php:333 includes/Alerts.php:88
+msgid "Notification channels"
+msgstr "Канали сповіщень"
+
+#: includes/Alerts.php:88
+msgid "Notification channels saved."
+msgstr "Канали сповіщень збережено."
+
+#: includes/Alerts.php:112 includes/State.php:110
+msgid "Notification delivery test"
+msgstr "Перевірка доставки сповіщень"
+
+#: includes/Admin.php:378 includes/Alerts.php:192
+#, php-format
+msgid "Occurrences: %d"
+msgstr "Кількість подій: %d"
+
+#: includes/Alerts.php:55
+msgid "PHP Sodium is required to save notification secrets."
+msgstr "Для збереження секретів сповіщень потрібне розширення PHP Sodium."
+
+#: includes/State.php:108
+msgid "Privileged login"
+msgstr "Вхід привілейованого користувача"
+
+#: includes/State.php:132
+#, php-format
+msgid "Privileged user signed in #%d"
+msgstr "Виконано вхід привілейованого користувача №%d"
+
+#: includes/Admin.php:29 includes/Admin.php:80 includes/Cli.php:414
+#: includes/State.php:109
+msgid "Protection settings changed"
+msgstr "Змінено налаштування захисту"
+
+#: includes/Admin.php:338
+msgid "Remove stored Telegram token"
+msgstr "Видалити збережений токен Telegram"
+
+#: includes/Admin.php:344
+msgid "Remove stored webhook secret"
+msgstr "Видалити збережений секрет webhook"
+
+#: includes/Admin.php:386
+msgid "Retry scheduled"
+msgstr "Заплановано повторну спробу"
+
+#: includes/Admin.php:373
+msgid "Review possible intrusion"
+msgstr "Перевірити можливе проникнення"
+
+#: includes/Admin.php:381
+msgid "Reviewed"
+msgstr "Перевірено"
+
+#: includes/Admin.php:402
+msgid "Revoke browser sessions"
+msgstr "Відкликати сеанси браузера"
+
+#: includes/Admin.php:345
+msgid "Save notification channels"
+msgstr "Зберегти канали сповіщень"
+
+#: includes/Admin.php:361
+msgid "Security incidents"
+msgstr "Інциденти безпеки"
+
+#: includes/Admin.php:346
+msgid "Send test notification"
+msgstr "Надіслати тестове сповіщення"
+
+#: includes/Admin.php:335
+msgid "Send to Telegram"
+msgstr "Надсилати в Telegram"
+
+#: includes/Admin.php:340
+msgid "Send to a signed webhook"
+msgstr "Надсилати в підписаний webhook"
+
+#: includes/Admin.php:343
+msgid "Set a signing secret shared with your receiver."
+msgstr "Задайте спільний з одержувачем секрет підпису."
+
+#: includes/Admin.php:443
+msgid "Signed firewall rule package"
+msgstr "Підписаний пакет правил"
+
+#: includes/Admin.php:26 includes/State.php:105
+msgid "Suspicious file detected"
+msgstr "Виявлено підозрілий файл"
+
+#: includes/Admin.php:336 includes/Alerts.php:58 includes/Alerts.php:77
+msgid "Telegram bot token"
+msgstr "Токен бота Telegram"
+
+#: includes/Admin.php:339 includes/Alerts.php:63
+msgid "Telegram chat ID"
+msgstr "Chat ID Telegram"
+
+#: includes/Alerts.php:126 includes/Cli.php:372
+msgid "Test notification sent."
+msgstr "Тестове сповіщення надіслано."
+
+#: includes/Admin.php:430
+msgid ""
+"The early loader checks requests before WordPress starts and blocks PHP "
+"execution in uploads. It uses .user.ini on CGI/FastCGI hosting."
+msgstr ""
+"Ранній завантажувач перевіряє запити до запуску WordPress і блокує виконання"
+" PHP у папці завантажень. На CGI/FastCGI-хостингу використовується "
+".user.ini."
+
+#: includes/EarlyProtection.php:57
+msgid "The early loader path is occupied by another file."
+msgstr "Шлях раннього завантажувача зайнятий іншим файлом."
+
+#: includes/Admin.php:354
+msgid ""
+"The file check is taking longer than five minutes. Review scheduler activity"
+" and site size."
+msgstr ""
+"Перевірка файлів триває понад п’ять хвилин. Перевірте планувальник і розмір "
+"сайту."
+
+#: includes/EarlyProtection.php:53
+msgid "The uploads directory is unavailable."
+msgstr "Папка завантажень недоступна."
+
+#: includes/Alerts.php:67
+msgid "The webhook must use a public HTTPS address."
+msgstr "Для webhook потрібна загальнодоступна HTTPS-адреса."
+
+#: includes/EarlyProtection.php:76
+msgid ""
+"Unable to update .user.ini. Configure the early loader in your hosting "
+"panel."
+msgstr ""
+"Не вдалося оновити .user.ini. Підключіть ранній завантажувач у панелі "
+"хостингу."
+
+#: includes/EarlyProtection.php:70
+msgid "Unable to write the early loader."
+msgstr "Не вдалося записати ранній завантажувач."
+
+#: includes/Admin.php:438
+msgid "Verify early protection"
+msgstr "Перевірити ранній захист"
+
+#: includes/Admin.php:341
+msgid "Webhook HTTPS URL"
+msgstr "HTTPS-адреса webhook"
+
+#: includes/Admin.php:342
+msgid "Webhook signing secret"
+msgstr "Секрет підпису webhook"
+
+#: includes/Admin.php:19
+msgid "Check critical file changes every five minutes"
+msgstr "Перевіряти зміни критично важливих файлів кожні п’ять хвилин"
+
+#: includes/EarlyProtection.php:130
+msgid "Early protection blocked a request"
+msgstr "Ранній захист заблокував запит"
+
+#: early-firewall.php:43 includes/EarlyProtection.php:237
+msgid "PHP execution in uploads is disabled."
+msgstr "Виконання PHP у папці завантажень заборонено."
+
+#: includes/EarlyProtection.php:211
+msgid "A firewall rule update is already running."
+msgstr "Оновлення правил уже виконується."
+
+#: includes/Admin.php:397
+#, php-format
+msgid "Action performed by user ID: %d"
+msgstr "Дію виконано користувачем №%d"
+
+#: includes/Admin.php:394
+#, php-format
+msgid "Affected user ID: %d"
+msgstr "Користувач, якого стосується подія, №%d"
+
+#: includes/Alerts.php:87
+msgid "Notification channel settings changed"
+msgstr "Змінено налаштування каналів сповіщень"
+
+#: includes/Admin.php:391
+msgid "Latest source IP"
+msgstr "Остання IP-адреса джерела"
+
+#: includes/Admin.php:20
+msgid "Require two-factor authentication for privileged accounts"
+msgstr ""
+"Вимагати двофакторну автентифікацію для привілейованих облікових записів"
+
+#: includes/Admin.php:300
+msgid ""
+"Mandatory two-factor protection is off by default. When enabled, privileged "
+"users must enroll at their next sign-in. Existing sessions without a second "
+"factor lose privileged access."
+msgstr ""
+"Обов’язковий двофакторний захист за замовчуванням вимкнено. Після ввімкнення"
+" привілейовані користувачі мають налаштувати його під час наступного входу. "
+"Наявні сеанси без другого фактора втрачають привілейований доступ."
+
+#: includes/Admin.php:204
+msgid ""
+"Disable the mandatory two-factor policy before removing your second factor."
+msgstr ""
+"Перед видаленням другого фактора вимкніть політику обов’язкового "
+"двофакторного захисту."
+
+#: includes/TwoFactor.php:219
+msgid ""
+"Your site requires a second factor for privileged access. Add this setup key"
+" to your authenticator and enter its code."
+msgstr ""
+"Для привілейованого доступу до сайту потрібен другий фактор. Додайте цей "
+"ключ до застосунку-автентифікатора та введіть отриманий код."
+
+#: includes/TwoFactor.php:208
+msgid "Continue"
+msgstr "Продовжити"
+
+#: includes/Cli.php:85
+msgid "The scan is paused. Use scan resume to continue it."
+msgstr "Сканування призупинено. Для продовження використайте scan resume."
+
+#: includes/Cli.php:144
+msgid "Critical file monitoring is disabled in settings."
+msgstr "Моніторинг критичних файлів вимкнено в налаштуваннях."
+
+#: includes/Cli.php:150
+msgid "A file monitoring operation is already running."
+msgstr "Операція моніторингу файлів уже виконується."
+
+#: includes/Cli.php:69 includes/Cli.php:281
+msgid "Use a finding selector from scan results."
+msgstr "Укажіть ідентифікатор selector із результатів сканування."
+
+#: includes/Cli.php:283
+msgid "Move this scan finding to quarantine?"
+msgstr "Перемістити цей файл із результатів сканування до карантину?"
+
+#: includes/Cli.php:288
+msgid "Restore this quarantined file to its original path?"
+msgstr "Відновити цей файл із карантину за початковим шляхом?"
+
+#: includes/Cli.php:326
+msgid "Invalid incident response action."
+msgstr "Недопустима дія реагування на інцидент."
+
+#: includes/Cli.php:328
+msgid "Apply this incident response action?"
+msgstr "Виконати цю дію реагування на інцидент?"
+
+#: includes/Cli.php:350
+msgid "User not found."
+msgstr "Користувача не знайдено."
+
+#: includes/Cli.php:352
+msgid "Revoke all browser sessions for this user?"
+msgstr "Відкликати всі браузерні сеанси цього користувача?"
+
+#: includes/Cli.php:410
+msgid "Change the mandatory two-factor policy?"
+msgstr "Змінити політику обов’язкового двофакторного захисту?"
+
+#: includes/Cli.php:423
+#, php-format
+msgid "Choose an action: %s"
+msgstr "Виберіть дію: %s"
+
+#: includes/Cli.php:432
+msgid "Enter a positive numeric ID or page number."
+msgstr "Укажіть додатний числовий ID або номер сторінки."
+
+#: includes/Cli.php:441
+msgid "Timeout must be a nonnegative number of seconds."
+msgstr "Обмеження часу має бути невід’ємною кількістю секунд."
+
+#: includes/Cli.php:453
+msgid ""
+"Time limit reached. Progress is saved. Run the command again to continue."
+msgstr ""
+"Досягнуто обмеження часу. Прогрес збережено. Повторіть команду для "
+"продовження."
+
+#: includes/Cli.php:457
+msgid "The operation stopped before completion. Check its status."
+msgstr "Операцію зупинено до завершення. Перевірте її стан."
+
+#: includes/Cli.php:489
+msgid "Choose a readable local signed package."
+msgstr "Укажіть доступний для читання локальний підписаний пакет."
+
+#: includes/Cli.php:497
+msgid "Unable to read the complete signed package."
+msgstr "Не вдалося повністю прочитати підписаний пакет."
+
+#: includes/Cli.php:513
+msgid "Output format must be json or table."
+msgstr "Формат виведення має бути json або table."
+
+#: includes/Malware.php:27
+msgid "Malware package signature verification failed."
+msgstr "Не вдалося перевірити підпис пакета антивірусних сигнатур."
+
+#: includes/Malware.php:31
+msgid "Invalid malware signature package."
+msgstr "Недопустимий пакет антивірусних сигнатур."
+
+#: includes/Malware.php:36
+msgid "A malware signature update is already running."
+msgstr "Оновлення антивірусних сигнатур уже виконується."
+
+#: includes/Malware.php:42
+msgid "This malware package is already installed or older."
+msgstr "Цей пакет антивірусних сигнатур уже встановлено або він застарів."
+
+#: includes/Malware.php:45
+msgid "Unable to store malware signatures."
+msgstr "Не вдалося зберегти антивірусні сигнатури."
+
+#: includes/Cli.php:244 includes/Malware.php:48
+msgid "Malware signatures updated."
+msgstr "Антивірусні сигнатури оновлено."
+
+#: includes/ScanReport.php:86
+msgid "The hash exclusion limit has been reached."
+msgstr "Досягнуто обмеження винятків за хешем."
+
+#: includes/ScanReport.php:90 includes/ScanReport.php:109
+msgid "Unable to save hash exclusions."
+msgstr "Не вдалося зберегти винятки за хешем."
+
+#: includes/Cli.php:73 includes/ScanReport.php:93
+msgid "Hash exclusion saved."
+msgstr "Виняток за хешем збережено."
+
+#: includes/ScanReport.php:105
+msgid "Hash exclusion not found."
+msgstr "Виняток за хешем не знайдено."
+
+#: includes/Cli.php:73 includes/ScanReport.php:112
+msgid "Hash exclusion removed."
+msgstr "Виняток за хешем видалено."
+
+#: includes/ScanReport.php:92
+msgid "Hash exclusion added"
+msgstr "Додано виняток за хешем"
+
+#: includes/Cli.php:73 includes/ScanReport.php:111 includes/ScanReport.php:112
+msgid "Hash exclusion removed"
+msgstr "Видалено виняток за хешем"
+
+#: includes/Cli.php:71
+msgid "Change this hash exclusion?"
+msgstr "Змінити цей виняток за хешем?"
+
+#: includes/Scanner.php:134
+msgid "Scan report storage is unavailable."
+msgstr "Сховище звіту про сканування недоступне."
+
+#: includes/Admin.php:544
+msgid ""
+"The full scan covers the site directory and configured external WordPress "
+"directories. Content checks apply to every file extension."
+msgstr ""
+"Повне сканування охоплює каталог сайту та налаштовані зовнішні каталоги "
+"WordPress. Перевірка вмісту застосовується до всіх розширень файлів."
+
+#: includes/Admin.php:548 includes/Admin.php:627 includes/Admin.php:632
+msgid "Skipped or partially checked items"
+msgstr "Пропущені або частково перевірені об’єкти"
+
+#: includes/Admin.php:549
+msgid "Excluded by hash"
+msgstr "Виключено за хешем"
+
+#: includes/Admin.php:550
+msgid "Scan worker time, seconds"
+msgstr "Час роботи сканера, секунди"
+
+#: includes/Admin.php:551
+msgid "Peak process memory"
+msgstr "Пікова пам’ять процесу"
+
+#: includes/Admin.php:552
+msgid "Bytes read"
+msgstr "Прочитано даних"
+
+#: includes/Admin.php:554
+msgid ""
+"Some skipped items could not be saved. The coverage report is incomplete."
+msgstr ""
+"Деякі пропущені об’єкти не вдалося зберегти. Звіт про охоплення неповний."
+
+#: includes/Admin.php:557
+msgid ""
+"The results list contains the first 500 findings. The total count includes "
+"all recorded findings."
+msgstr ""
+"У списку показано перші 500 знахідок. Загальний лічильник враховує всі "
+"зареєстровані знахідки."
+
+#: includes/Admin.php:559
+msgid "Malware signature version"
+msgstr "Версія антивірусних сигнатур"
+
+#: includes/Admin.php:560
+msgid "Signatures used by this scan"
+msgstr "Сигнатури, використані під час сканування"
+
+#: includes/Admin.php:562
+msgid "Signed malware signature package"
+msgstr "Підписаний пакет антивірусних сигнатур"
+
+#: includes/Admin.php:562
+msgid "Import malware signatures"
+msgstr "Імпортувати антивірусні сигнатури"
+
+#: includes/Admin.php:592
+msgid "Confidence"
+msgstr "Впевненість"
+
+#: includes/Admin.php:521 includes/Admin.php:522
+#: includes/Vulnerabilities.php:266 includes/Vulnerabilities.php:268
+msgid "High"
+msgstr "Висока"
+
+msgid "Medium"
+msgstr "Середня"
+
+#: includes/Admin.php:521 includes/Admin.php:522
+#: includes/Vulnerabilities.php:266 includes/Vulnerabilities.php:267
+msgid "Low"
+msgstr "Низька"
+
+#: includes/Admin.php:599 includes/Malware.php:114 includes/Malware.php:125
+#: includes/Malware.php:128
+msgid "Line"
+msgstr "Рядок"
+
+#: includes/Admin.php:614
+msgid "Confirm trusting this exact file hash"
+msgstr "Підтвердити довіру до цього точного хешу файлу"
+
+#: includes/Admin.php:614
+msgid "Exclude this hash"
+msgstr "Виключити цей хеш"
+
+#: includes/Admin.php:628
+msgid ""
+"Files larger than 64 MiB and symbolic links are skipped. PHP token analysis "
+"may be partial when memory or complexity limits are reached. Archives are "
+"checked as raw files."
+msgstr ""
+"Файли понад 64 МіБ та символічні посилання пропускаються. Аналіз PHP за "
+"токенами може бути частковим після досягнення обмежень пам’яті або "
+"складності. Архіви перевіряються як звичайні файли без розпакування."
+
+#: early-firewall.php:36 early-firewall.php:37 site-defense.php:9
+#: includes/Admin.php:633 includes/Quarantine.php:302
+#: includes/Quarantine.php:303 includes/Scanner.php:91
+#: includes/Scanner.php:237 includes/ScanReport.php:42
+#: includes/ScanReport.php:69 includes/ScanReport.php:84
+#: includes/ScanReport.php:88
+msgid "Path"
+msgstr "Шлях"
+
+#: includes/Admin.php:633
+msgid "Reason"
+msgstr "Причина"
+
+#: includes/Admin.php:633
+msgid "Scope"
+msgstr "Охоплення"
+
+#: includes/Admin.php:633
+msgid "Content bytes read"
+msgstr "Прочитано байтів вмісту"
+
+#: includes/Admin.php:639
+msgid "Directory subtree"
+msgstr "Дерево каталогу"
+
+#: includes/Admin.php:639
+msgid "Partial file check"
+msgstr "Часткова перевірка файлу"
+
+#: site-defense.php:16 site-defense.php:27 includes/Admin.php:123
+#: includes/Admin.php:543 includes/Admin.php:546 includes/Admin.php:576
+#: includes/Admin.php:578 includes/Admin.php:628 includes/Admin.php:639
+#: includes/Cli.php:153 includes/Cli.php:154 includes/Cli.php:284
+#: includes/Cli.php:289 includes/Cli.php:322 includes/EarlyProtection.php:145
+#: includes/FileWatch.php:6 includes/Incidents.php:67 includes/Malware.php:90
+#: includes/Malware.php:97 includes/Malware.php:109 includes/Malware.php:143
+#: includes/Malware.php:166 includes/Quarantine.php:66
+#: includes/Quarantine.php:114 includes/Quarantine.php:161
+#: includes/Quarantine.php:293 includes/Quarantine.php:330
+#: includes/Scanner.php:244 includes/State.php:103 includes/State.php:104
+msgid "File"
+msgstr "Файл"
+
+#: includes/Admin.php:651
+msgid "No skipped items recorded on this page."
+msgstr "На цій сторінці немає зареєстрованих пропусків."
+
+#: includes/Admin.php:653
+msgid "Hash exclusions"
+msgstr "Винятки за хешем"
+
+#: includes/Admin.php:653
+msgid ""
+"An exclusion applies only while the file SHA-256 matches. Changed files are "
+"analyzed again."
+msgstr ""
+"Виняток діє лише за збігу SHA-256 файлу. Змінені файли аналізуються "
+"повторно."
+
+#: includes/Admin.php:657
+msgid "Confirm removing this hash exclusion"
+msgstr "Підтвердити видалення цього винятку за хешем"
+
+#: includes/Admin.php:657
+msgid "Remove exclusion"
+msgstr "Видалити виняток"
+
+#: includes/Malware.php:90 includes/Malware.php:109 includes/Scanner.php:244
+msgid "File could not be read"
+msgstr "Не вдалося прочитати файл"
+
+#: includes/Malware.php:97
+msgid "Not a regular file"
+msgstr "Об’єкт не є звичайним файлом"
+
+#: includes/Malware.php:143 includes/Malware.php:166
+msgid "File changed while scanning"
+msgstr "Файл змінився під час сканування"
+
+#: includes/Malware.php:148 includes/Scanner.php:253
+msgid "Excluded by matching SHA-256"
+msgstr "Виключено за збігом SHA-256"
+
+#: includes/Malware.php:162 includes/Malware.php:176
+msgid "PHP token analysis exceeds available memory budget"
+msgstr "Для аналізу PHP за токенами недостатньо доступної пам’яті"
+
+#: includes/Malware.php:185
+msgid "PHP data-flow analysis reached its complexity limit"
+msgstr "Аналіз потоків даних PHP досяг обмеження складності"
+
+#: includes/Scanner.php:189 includes/Scanner.php:207 includes/Scanner.php:244
+msgid "Symbolic link is not followed"
+msgstr "Перехід за символічним посиланням пропущено"
+
+#: includes/Scanner.php:189 includes/Scanner.php:196
+msgid "Directory could not be read"
+msgstr "Не вдалося прочитати каталог"
+
+#: includes/PhpAnalyzer.php:215 includes/Scanner.php:16
+msgid "Suspicious PHP data flow"
+msgstr "Підозрілий потік даних PHP"
+
+#: includes/PhpAnalyzer.php:231 includes/Scanner.php:16
+msgid "Possible PHP loader write"
+msgstr "Можливий запис PHP-завантажувача"
+
+#: includes/Malware.php:127 includes/Scanner.php:17
+msgid "Encoded JavaScript execution"
+msgstr "Виконання закодованого JavaScript"
+
+#: includes/Malware.php:127 includes/Malware.php:153 includes/Scanner.php:17
+msgid "Malware signature matched"
+msgstr "Збіг з антивірусною сигнатурою"
+
+#: includes/Scanner.php:289
+msgid "Executable extension in the upload directory"
+msgstr "Виконуване розширення в каталозі завантажень"
+
+#: includes/Scanner.php:296
+msgid "Official checksum mismatch"
+msgstr "Невідповідність офіційній контрольній сумі"
+
+msgid "Request data reaches code execution"
+msgstr "Дані запиту передаються на виконання коду"
+
+msgid "Decoded data reaches code execution"
+msgstr "Декодовані дані передаються на виконання коду"
+
+msgid "Possible PHP loader written to a file"
+msgstr "Можливий запис PHP-завантажувача у файл"
+
+msgid "Decoded JavaScript reaches execution"
+msgstr "Декодований JavaScript передається на виконання"
+
+#: includes/PhpAnalyzer.php:237
+msgid "Request-selected include under a fixed base path"
+msgstr ""
+"Запит вибирає підключуваний файл усередині фіксованого базового каталогу"
+
+#: includes/Admin.php:644
+msgid "Previous page"
+msgstr "Попередня сторінка"
+
+#: includes/Admin.php:647
+msgid "Next page"
+msgstr "Наступна сторінка"
+
+msgid "No previous firewall package is available."
+msgstr "Попередній пакет правил WAF недоступний."
+
+msgid "Previous firewall package restored."
+msgstr "Попередній пакет правил WAF відновлено."
+
+msgid "Unknown firewall rule or mode."
+msgstr "Невідоме правило WAF або режим."
+
+msgid "Firewall rule mode saved."
+msgstr "Режим правила WAF збережено."
+
+msgid "Unable to save firewall rules."
+msgstr "Не вдалося зберегти правила WAF."
+
+msgid "Unable to update the early firewall configuration."
+msgstr "Не вдалося оновити конфігурацію раннього WAF."
+
+msgid "Addressed firewall rules"
+msgstr "Адресні правила WAF"
+
+msgid "Firewall rules are disabled in protection settings."
+msgstr "Правила WAF вимкнено в налаштуваннях захисту."
+
+msgid "Restore firewall package %d"
+msgstr "Відновити пакет правил WAF %d"
+
+msgid "Roll back firewall package"
+msgstr "Відкотити пакет правил WAF"
+
+msgid "Observe"
+msgstr "Спостереження"
+
+msgid "Block"
+msgstr "Блокування"
+
+msgid "Off"
+msgstr "Вимкнено"
+
+msgid ""
+"Observe records matches and allows the request to continue. Block returns "
+"HTTP 403."
+msgstr ""
+"Спостереження реєструє збіги й пропускає запит. Блокування повертає HTTP "
+"403."
+
+msgid "Route"
+msgstr "Маршрут"
+
+msgid "Mode"
+msgstr "Режим"
+
+msgid "Affected version"
+msgstr "Вразлива версія"
+
+msgid "Version unavailable"
+msgstr "Версія недоступна"
+
+msgid "Outside affected versions"
+msgstr "Поза діапазоном вразливих версій"
+
+msgid "Save rule mode"
+msgstr "Зберегти режим правила"
+
+msgid "Targeted firewall rules"
+msgstr "Адресні правила WAF"
+
+msgid "Database audit"
+msgstr "Перевірка бази даних"
+
+msgid "Database audit queued."
+msgstr "Перевірку бази даних поставлено в чергу."
+
+msgid "A database audit operation is already running."
+msgstr "Перевірка бази даних уже виконується."
+
+msgid "Unable to save the database audit."
+msgstr "Не вдалося зберегти звіт перевірки бази даних."
+
+msgid "The account or its privileges changed. Run the database audit again."
+msgstr ""
+"Обліковий запис або його права змінилися. Запустіть перевірку бази даних "
+"знову."
+
+msgid "Unable to save trusted accounts."
+msgstr "Не вдалося зберегти підтверджені облікові записи."
+
+msgid "Account privileges confirmed."
+msgstr "Права облікового запису підтверджено."
+
+msgid "Trusted account not found."
+msgstr "Підтверджений обліковий запис не знайдено."
+
+msgid "Account confirmation removed."
+msgstr "Підтвердження облікового запису скасовано."
+
+msgid "Unconfirmed privileged account"
+msgstr "Непідтверджений привілейований обліковий запис"
+
+msgid "Privileges changed since confirmation"
+msgstr "Права змінилися після підтвердження"
+
+msgid "Malformed account privileges"
+msgstr "Некоректний запис про права облікового запису"
+
+msgid "WP-Cron hook has no callback in this run"
+msgstr "Завдання WP-Cron не має обробника в цьому запуску"
+
+msgid "WP-Cron arguments contain script or redirect markers"
+msgstr "В аргументах WP-Cron є ознаки скрипту або перенаправлення"
+
+msgid "Malformed WP-Cron entry"
+msgstr "Некоректний запис WP-Cron"
+
+msgid "Executable script tag"
+msgstr "Виконуваний тег script"
+
+msgid "Executable code marker"
+msgstr "Ознака виконуваного коду"
+
+msgid "Automatic redirect marker"
+msgstr "Ознака автоматичного перенаправлення"
+
+msgid "Database audit failed. Check database access and try again."
+msgstr ""
+"Перевірка бази даних завершилася помилкою. Перевірте доступ до бази й "
+"повторіть запуск."
+
+msgid "Review privileged accounts, WP-Cron, stored scripts and redirects."
+msgstr ""
+"Перевірте привілейовані облікові записи, завдання WP-Cron, збережені скрипти"
+" й перенаправлення."
+
+msgid ""
+"The audit is running in the background. Refresh this page for progress."
+msgstr ""
+"Перевірка виконується у фоновому режимі. Оновіть сторінку, щоб побачити "
+"перебіг."
+
+msgid "Refresh results"
+msgstr "Оновити результати"
+
+msgid "Start database audit"
+msgstr "Запустити перевірку бази даних"
+
+msgid "Records and scheduled events checked"
+msgstr "Перевірено записів і завдань"
+
+msgid "Skipped by audit limits"
+msgstr "Пропущено через обмеження"
+
+msgid ""
+"The report lists the first 500 findings. The counters include all matches."
+msgstr "У звіті показано перші 500 знахідок. Лічильники враховують усі збіги."
+
+msgid ""
+"Some values exceeded the audit limits. The WP-CLI status lists skipped "
+"values by source."
+msgstr ""
+"Деякі значення перевищили обмеження перевірки. У статусі WP-CLI пропуски "
+"згруповано за джерелами."
+
+msgid "Database findings"
+msgstr "Знахідки в базі даних"
+
+msgid ""
+"A finding needs review. Some plugins register their cron callbacks only in "
+"certain requests."
+msgstr ""
+"Знахідки потребують перевірки. Деякі плагіни реєструють обробники cron лише "
+"в окремих запитах."
+
+msgid "No database findings recorded."
+msgstr "Знахідок у базі даних поки немає."
+
+msgid "Location"
+msgstr "Розташування"
+
+msgid "Post #%d"
+msgstr "Запис №%d"
+
+msgid "Confirmed"
+msgstr "Підтверджено"
+
+msgid "Confirm the current privileges"
+msgstr "Позначити поточні права облікового запису як довірені?"
+
+msgid "Confirm account"
+msgstr "Підтвердити обліковий запис"
+
+msgid "Confirmed accounts"
+msgstr "Підтверджені облікові записи"
+
+msgid ""
+"Confirm accounts you recognize. Changed privileges appear in the next audit."
+msgstr ""
+"Підтверджуйте знайомі облікові записи. Змінені права з’являться в наступній "
+"перевірці."
+
+msgid "Confirm removing the account approval"
+msgstr ""
+"Скасувати підтвердження? Під час наступної перевірки обліковий запис знову "
+"потрапить до звіту."
+
+msgid "Remove confirmation"
+msgstr "Скасувати підтвердження"
+
+msgid "Use the account fingerprint from the database findings."
+msgstr "Укажіть відбиток прав облікового запису зі звіту бази даних."
+
+msgid "Change the account confirmation?"
+msgstr "Змінити підтвердження облікового запису?"
+
+msgid "Database audit confirmed user #%d"
+msgstr "Перевірка бази даних підтвердила обліковий запис №%d"
+
+msgid "Database audit removed confirmation for user #%d"
+msgstr "Скасовано підтвердження облікового запису №%d у перевірці бази даних"
+
+msgid "Protection"
+msgstr "Захист"
+
+msgid "Vulnerabilities"
+msgstr "Вразливості"
+
+msgid "Files"
+msgstr "Файли"
+
+msgid "Incidents"
+msgstr "Інциденти"
+
+msgid "Notifications"
+msgstr "Сповіщення"
+
+msgid "Cancel"
+msgstr "Скасувати"
+
+msgid "Confirm"
+msgstr "Підтвердити"
+
+msgid "Email"
+msgstr "Електронна пошта"
+
+msgid "Save email settings"
+msgstr "Зберегти налаштування пошти"
+
+msgid "File monitoring"
+msgstr "Моніторинг файлів"
+
+msgid "Save file monitoring settings"
+msgstr "Зберегти налаштування моніторингу"
+
+msgid "Nginx configuration"
+msgstr "Налаштування Nginx"
+
+msgid "Firewall settings"
+msgstr "Налаштування WAF"
+
+msgid "Save firewall settings"
+msgstr "Зберегти налаштування WAF"
+
+msgid "Firewall rules are disabled."
+msgstr "Правила WAF вимкнено."
+
+msgid "Save login settings"
+msgstr "Зберегти налаштування входу"
+
+msgid "Save update settings"
+msgstr "Зберегти налаштування оновлень"
+
+msgid "Send email notifications"
+msgstr "Надсилати сповіщення електронною поштою"
+
+msgid "Check WPVulnerability daily"
+msgstr "Щодня перевіряти WPVulnerability"
+
+msgid "New vulnerability found"
+msgstr "Виявлено нову вразливість"
+
+msgid "Update review needed"
+msgstr "Перевірте наявність виправлення"
+
+msgid "Component: %1$s · Installed version: %2$s"
+msgstr "Компонент: %1$s · Встановлена версія: %2$s"
+
+msgid "Fixed version: %s"
+msgstr "Версія з виправленням: %s"
+
+msgid ""
+"Email uses the event selection above. New vulnerabilities are sent through "
+"email and Telegram. Blocked attempts are grouped into five-minute summaries."
+msgstr ""
+"Електронною поштою надсилаються вибрані вище події. Нові вразливості можна "
+"отримувати електронною поштою й у Telegram. Заблоковані спроби об’єднуються "
+"у зведення за п’ять хвилин."
+
+msgid "Installed components with advisory records — %1$s of %2$s"
+msgstr "Встановлені компоненти, для яких є записи — %1$s із %2$s"
+
+msgid ""
+"WPVulnerability requests use plugin and theme identifiers. Version "
+"comparison runs locally and keeps the last successful API response."
+msgstr ""
+"До WPVulnerability передаються ідентифікатори плагінів і тем. Версії "
+"звіряються на сайті, де зберігається остання успішна відповідь API."
+
+msgid ""
+"WPVulnerability cache: %1$d of %2$d components. Entries older than one day: "
+"%3$d."
+msgstr ""
+"Кеш WPVulnerability: %1$d із %2$d компонентів. Записів старше доби: %3$d."
+
+msgid "Waiting for the first WPVulnerability check."
+msgstr "Очікується перша перевірка WPVulnerability."
+
+msgid "Active until %s."
+msgstr "Активний до %s."
+
+msgid "Allow plugin and theme installation and file editing again?"
+msgstr "Знову дозволити встановлення плагінів і тем та редагування файлів?"
+
+msgid "An application password target is invalid or unavailable."
+msgstr ""
+"Указаний пароль застосунку недоступний або ідентифікатор неправильний."
+
+msgid "Application passwords · user ID:UUID pairs separated by commas"
+msgstr "Паролі застосунків · пари ID користувача:UUID через кому"
+
+msgid "Apply this plan and enable incident mode?"
+msgstr "Застосувати план і ввімкнути режим інциденту?"
+
+msgid "Browser sessions · User IDs separated by commas"
+msgstr "Сеанси браузера · ID користувачів через кому"
+
+msgid "CISA KEV is current."
+msgstr "Каталог CISA KEV актуальний."
+
+msgid "CISA KEV added %1$s on %2$s."
+msgstr "CISA KEV додав %1$s до каталогу %2$s."
+
+msgid "CISA KEV update is already running."
+msgstr "Оновлення CISA KEV вже виконується."
+
+msgid "CISA Known Exploited Vulnerabilities"
+msgstr "Каталог експлуатованих вразливостей CISA KEV"
+
+msgid "Check CISA KEV daily"
+msgstr "Щодня оновлювати каталог CISA KEV"
+
+msgid "Component installed or updated"
+msgstr "Встановлення або оновлення компонента"
+
+msgid "Disable incident mode"
+msgstr "Вимкнути режим інциденту"
+
+msgid "Disable incident mode?"
+msgstr "Вимкнути режим інциденту?"
+
+msgid "Discard plan"
+msgstr "Скасувати план"
+
+msgid "Duration in minutes"
+msgstr "Тривалість у хвилинах"
+
+msgid "Duration: %d minutes"
+msgstr "Тривалість у хвилинах: %d"
+
+msgid "Enable external heartbeat"
+msgstr "Увімкнути зовнішній контроль"
+
+msgid "Enable incident mode"
+msgstr "Увімкнути режим інциденту"
+
+msgid "Enable incident mode and apply the selected revocations?"
+msgstr ""
+"Увімкнути режим інциденту та відкликати вибрані сеанси й паролі застосунків?"
+
+msgid "External heartbeat"
+msgstr "Зовнішній контроль роботи"
+
+msgid "Find privileged accounts and application password IDs"
+msgstr "Знайти привілейовані облікові записи та ID паролів застосунків"
+
+msgid "Heartbeat delivered."
+msgstr "Сигнал доставлено."
+
+msgid "Heartbeat delivery failed."
+msgstr "Не вдалося доставити сигнал."
+
+msgid "Heartbeat is disabled."
+msgstr "Зовнішній контроль вимкнено."
+
+msgid "Heartbeat settings changed"
+msgstr "Змінено налаштування зовнішнього контролю"
+
+msgid "Heartbeat settings saved."
+msgstr "Налаштування зовнішнього контролю збережено."
+
+msgid "Heartbeat signing secret"
+msgstr "Секрет для підпису сигналу"
+
+msgid "Incident mode"
+msgstr "Режим інциденту"
+
+msgid "Incident mode disabled"
+msgstr "Режим інциденту вимкнено"
+
+msgid "Incident mode enabled"
+msgstr "Режим інциденту ввімкнено"
+
+msgid "Incident mode enabled. Check these application passwords: %s"
+msgstr "Режим інциденту ввімкнено. Перевірте ці паролі застосунків: %s"
+
+msgid "Incident mode is already active."
+msgstr "Режим інциденту вже ввімкнено."
+
+msgid "Incident mode is being updated. Try again."
+msgstr "Режим інциденту оновлюється. Спробуйте ще раз."
+
+msgid "Incident plan"
+msgstr "План реагування"
+
+msgid "Incident plan cancelled."
+msgstr "План реагування скасовано."
+
+msgid "Incident timeline"
+msgstr "Хронологія інциденту"
+
+msgid ""
+"Invalid session target. Use WP-CLI to revoke your own browser sessions."
+msgstr ""
+"Не вдалося вибрати користувача. Для відкликання власних сеансів браузера "
+"скористайтеся WP-CLI."
+
+msgid "Known exploitation · CISA KEV"
+msgstr "Відома експлуатація · CISA KEV"
+
+msgid "Known vulnerability is being exploited"
+msgstr "Відому вразливість експлуатують"
+
+msgid "Last successful heartbeat"
+msgstr "Останній доставлений сигнал"
+
+msgid "Latest 50 relevant events in the past 24 hours."
+msgstr "До 50 останніх подій за добу."
+
+msgid "No timeline events recorded."
+msgstr "У хронології поки немає подій."
+
+msgid "Plugin activated"
+msgstr "Плагін активовано"
+
+msgid "Plugin deactivated"
+msgstr "Плагін деактивовано"
+
+msgid "Preview incident plan"
+msgstr "Переглянути план"
+
+msgid "Receiver HTTPS address"
+msgstr "HTTPS-адреса приймача"
+
+msgid "Remove stored heartbeat secret"
+msgstr "Видалити збережений секрет"
+
+msgid "Review the incident plan before applying it."
+msgstr "Перевірте план перед застосуванням."
+
+msgid "Revoked sessions and application passwords cannot be restored."
+msgstr "Відкликані сеанси й паролі застосунків неможливо відновити."
+
+msgid "Save heartbeat settings"
+msgstr "Зберегти налаштування зовнішнього контролю"
+
+msgid ""
+"Send a signed signal about WordPress task health every five minutes. Run the"
+" receiver separately so it can report missed signals."
+msgstr ""
+"Site Defense надсилає підписаний сигнал про стан завдань WordPress кожні "
+"п’ять хвилин. Запустіть приймач окремо, щоб він міг повідомляти про "
+"пропущені сигнали."
+
+msgid "Send heartbeat now"
+msgstr "Надіслати сигнал зараз"
+
+msgid "Set the receiver address and secret before enabling heartbeat."
+msgstr ""
+"Вкажіть адресу приймача та секрет перед увімкненням зовнішнього контролю."
+
+msgid ""
+"Temporarily blocks plugin and theme installation, uploads and file editing "
+"through WordPress. Use WP-CLI for emergency maintenance."
+msgstr ""
+"Тимчасово забороняє встановлення та завантаження плагінів і тем і "
+"редагування файлів через WordPress. Для аварійних робіт скористайтеся WP-"
+"CLI."
+
+msgid "The heartbeat receiver must use a public HTTPS address."
+msgstr "Приймач повинен мати публічну HTTPS-адресу."
+
+msgid "Theme changed"
+msgstr "Тему змінено"
+
+msgid "This incident plan expired or changed. Preview it again."
+msgstr "План застарів або змінився. Відкрийте попередній перегляд знову."
+
+msgid "Unable to refresh CISA KEV."
+msgstr "Не вдалося оновити каталог CISA KEV."
+
+msgid "Unable to save heartbeat settings."
+msgstr "Не вдалося зберегти налаштування зовнішнього контролю."
+
+msgid "Unable to save incident mode."
+msgstr "Не вдалося зберегти режим інциденту."
+
+msgid "Update CISA KEV now"
+msgstr "Оновити CISA KEV зараз"
+
+msgid ""
+"Use a duration from 5 to 1440 minutes and at most 50 targets per action."
+msgstr ""
+"Вкажіть тривалість від 5 до 1440 хвилин і не більше 50 цілей для кожної дії."
+
+msgid ""
+"Use a heartbeat secret of 32 to 128 URL-safe characters and enable PHP "
+"Sodium."
+msgstr ""
+"Вкажіть секрет із 32–128 латинських літер, цифр, дефісів або підкреслень і "
+"ввімкніть PHP Sodium."
+
+msgid "Use up to 336 hours and 10000 timeline entries."
+msgstr "Вкажіть не більше 336 годин і 10 000 записів хронології."
+
+msgid "User #%1$d · Application password: %2$s"
+msgstr "Користувач №%1$d · Пароль застосунку: %2$s"
+
+msgid "User %1$s (#%2$d) · Browser sessions: %3$d"
+msgstr "Користувач %1$s (№%2$d) · Сеансів браузера: %3$d"
+
+msgid "Check these application passwords: %s"
+msgstr "Перевірте ці паролі застосунків: %s"
+
+msgid "Unable to revoke browser sessions for these user IDs: %s"
+msgstr "Не вдалося відкликати сеанси браузера для користувачів з ID %s."
+
+msgid "Copy made before repair · #%d"
+msgstr "Копія до відновлення · №%d"
+
+msgid "Current SHA-256"
+msgstr "Поточний SHA-256"
+
+msgid "Discard repair preview"
+msgstr "Скасувати попередній перегляд"
+
+msgid "File repair preview"
+msgstr "Попередній перегляд відновлення"
+
+msgid "File repair undone"
+msgstr "Відновлення файлу скасовано"
+
+msgid "File replaced with official copy"
+msgstr "Файл замінено офіційною копією"
+
+msgid "Installed component: %1$s %2$s"
+msgstr "Встановлений компонент: %1$s %2$s"
+
+msgid ""
+"Keep the original in quarantine and replace this file with the verified "
+"copy?"
+msgstr "Зберегти оригінал у карантині й замінити файл перевіреною копією?"
+
+msgid "Official package from WordPress.org"
+msgstr "Офіційний пакет WordPress.org"
+
+msgid "Preview file repair"
+msgstr "Попередній перегляд відновлення"
+
+msgid "Quarantine entry: #%d."
+msgstr "Запис у карантині №%d."
+
+msgid "Repair preview discarded."
+msgstr "Попередній перегляд відновлення скасовано."
+
+msgid "Replace %s with the verified file and quarantine the original?"
+msgstr "Замінити %s перевіреною копією і зберегти оригінал у карантині?"
+
+msgid "Replace with verified file"
+msgstr "Замінити перевіреною копією"
+
+msgid "Replacement SHA-256"
+msgstr "SHA-256 нової копії"
+
+msgid ""
+"Return the previous file? It may contain the suspicious code found during "
+"the scan."
+msgstr ""
+"Повернути попередній файл? Він може містити підозрілий код, знайдений під "
+"час сканування."
+
+msgid "The file already matches the official copy."
+msgstr "Файл уже збігається з офіційною копією."
+
+msgid ""
+"The file changed during verification. Inspect the target and its quarantine "
+"copy."
+msgstr ""
+"Файл змінився під час перевірки. Перевірте файл та його копію в карантині."
+
+msgid ""
+"The file or installed version changed. Scan again before applying a repair."
+msgstr ""
+"Файл або встановлена версія змінилися. Перед відновленням запустіть нову "
+"перевірку."
+
+msgid "The file was replaced and verified. Quarantine entry: #%d."
+msgstr "Файл замінено й перевірено. Запис у карантині №%d."
+
+msgid "The official archive or its file could not be verified."
+msgstr "Не вдалося перевірити офіційний архів або файл із нього."
+
+msgid "The official checksum changed or is unavailable. Create a new preview."
+msgstr ""
+"Офіційна контрольна сума змінилася або недоступна. Створіть новий попередній"
+" перегляд."
+
+msgid "The official checksum for this file is unavailable."
+msgstr "Офіційна контрольна сума цього файлу недоступна."
+
+msgid "The official file was verified. Review the repair preview."
+msgstr "Офіційний файл перевірено. Перегляньте план відновлення."
+
+msgid "The original is in place. Retry to update the repair history."
+msgstr "Оригінал на місці. Повторіть дію, щоб оновити історію відновлення."
+
+msgid "The original was returned from quarantine."
+msgstr "Оригінал повернуто з карантину."
+
+msgid "The repair path or its permissions could not be verified."
+msgstr "Не вдалося перевірити шлях або права доступу до файлу."
+
+msgid "The repair preview expired. Create a new preview."
+msgstr ""
+"Термін попереднього перегляду минув. Створіть новий попередній перегляд."
+
+msgid "The replacement could not be staged with the original permissions."
+msgstr "Не вдалося підготувати заміну з початковими правами доступу."
+
+msgid ""
+"The server could not atomically replace the file. The quarantine copy is "
+"intact."
+msgstr "Сервер не зміг атомарно замінити файл. Копію збережено в карантині."
+
+msgid "The server could not stage the replacement beside the original."
+msgstr "Сервер не зміг підготувати заміну в теці вихідного файлу."
+
+msgid "There is no supported official package for this file."
+msgstr "Для цього файлу немає підтримуваного офіційного пакета."
+
+msgid "This checksum finding is unavailable. Scan the file again."
+msgstr "Результат звірки контрольної суми недоступний. Перевірте файл знову."
+
+msgid "This repair backup is no longer available."
+msgstr "Копія для скасування відновлення більше недоступна."
+
+msgid "Unable to save the repair preview."
+msgstr "Не вдалося зберегти попередній перегляд відновлення."
+
+msgid ""
+"Unable to verify the original quarantine copy. File replacement was "
+"cancelled."
+msgstr ""
+"Не вдалося перевірити копію оригіналу в карантині. Заміну файлу скасовано."
+
+msgid "Undo file repair"
+msgstr "Скасувати відновлення"
+
+msgid "Verified official MD5"
+msgstr "Перевірена офіційна MD5"
+
+msgid "Verified official SHA-256"
+msgstr "Перевірена офіційна SHA-256"
+
+msgid "A cleanup operation is already running."
+msgstr "Операція очищення вже виконується."
+
+msgid ""
+"A selected cleanup target is stale or unknown. Refresh the investigation."
+msgstr "Вибрана ціль застаріла або недоступна. Оновіть звіт розслідування."
+
+msgid "Apply the selected cleanup step to %s?"
+msgstr "Застосувати вибраний крок очищення до %s?"
+
+msgid "Cleanup plan or step was not found."
+msgstr "План або крок очищення не знайдено."
+
+msgid "Cleanup step applied"
+msgstr "Крок очищення застосовано"
+
+msgid "Cleanup step unavailable or permission denied."
+msgstr "Крок очищення недоступний або бракує прав."
+
+msgid "Cleanup step undone"
+msgstr "Крок очищення скасовано"
+
+msgid "Prepare a matching official file repair preview first."
+msgstr ""
+"Спочатку підготуйте попередній перегляд відновлення цього файлу з офіційного"
+" пакета."
+
+msgid ""
+"Return the original target %s? Suspicious code or scheduled actions may "
+"return."
+msgstr ""
+"Повернути початковий об’єкт %s? Це може повернути підозрілий код або "
+"завдання."
+
+msgid ""
+"Select a WordPress user with Site Defense investigation access using --user."
+msgstr ""
+"Укажіть через --user користувача WordPress із доступом до розслідування Site"
+" Defense."
+
+msgid "Select between 1 and 10 cleanup targets from the investigation."
+msgstr "Виберіть від 1 до 10 цілей очищення зі звіту розслідування."
+
+msgid "Select only one action per file."
+msgstr "Виберіть лише одну дію для кожного файлу."
+
+msgid ""
+"The scheduled event changed or the schedule could not be saved. Inspect the "
+"current schedule."
+msgstr ""
+"Завдання змінилося або не вдалося зберегти розклад. Перевірте поточний "
+"розклад."
+
+msgid "The scheduled event changed. Refresh the investigation."
+msgstr "Завдання змінилося. Оновіть звіт розслідування."
+
+msgid "The selected web access log is unavailable."
+msgstr "Вибраний журнал HTTP-запитів недоступний."
+
+msgid "The target changed. Retry the same step to update the cleanup history."
+msgstr "Ціль змінено. Повторіть крок, щоб оновити історію очищення."
+
+msgid "This cleanup step cannot be changed in its current state."
+msgstr "Поточний стан кроку очищення не дозволяє цю дію."
+
+msgid "Unable to save the cleanup plan."
+msgstr "Не вдалося зберегти план очищення."
+
+msgid "Use up to 168 hours and 200 entries per source."
+msgstr "Укажіть не більше 168 годин і 200 записів на джерело."
+
+msgid ""
+"The database field changed or is unavailable. Refresh the database audit "
+"before continuing."
+msgstr ""
+"Поле бази даних змінилося або недоступне. Перш ніж продовжити, повторіть "
+"аудит бази даних."
+
+msgid "The database cleanup backup could not be verified."
+msgstr "Не вдалося перевірити резервну копію поля бази даних."
+
+msgid "Database cleanup step not found."
+msgstr "Крок очищення бази даних не знайдено."
+
+msgid ""
+"Restore the original database field %s? The selected script or redirect may "
+"return."
+msgstr ""
+"Відновити початкове поле бази даних %s? Вибраний скрипт або перенаправлення "
+"може повернутися."
+
+msgid "Plugin update channel"
+msgstr "Канал оновлень плагіна"
+
+msgid "Show updates for"
+msgstr "Показувати оновлення для"
+
+msgid "Stable releases"
+msgstr "Стабільні випуски"
+
+msgid "Stable releases and release candidates"
+msgstr "Стабільні випуски й кандидати (RC)"
+
+msgid "Save update channel"
+msgstr "Зберегти канал оновлень"
+
+msgid "This Site Defense update is unavailable for the selected channel."
+msgstr "Це оновлення Site Defense недоступне у вибраному каналі."
+
+msgid "The signed Site Defense release could not be verified."
+msgstr "Не вдалося перевірити підписаний випуск Site Defense."
+
+msgid "Unable to download the Site Defense update."
+msgstr "Не вдалося завантажити оновлення Site Defense."
+
+msgid ""
+"The Site Defense ZIP failed verification. The installed plugin was kept."
+msgstr ""
+"Архів Site Defense не пройшов перевірку. Встановлену версію збережено."

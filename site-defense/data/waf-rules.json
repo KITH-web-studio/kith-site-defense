@@ -1,0 +1,51 @@
+{
+  "schema": 2,
+  "version": 2,
+  "rules": [
+    {
+      "id": "CVE-2026-87902",
+      "component": "core",
+      "ranges": [
+        ["6.8", true, "6.8.10", false],
+        ["6.9", true, "6.9.9", false],
+        ["7.0", true, "7.0.6", false],
+        ["7.1", true, "7.1.2", false]
+      ],
+      "route": "front",
+      "methods": [],
+      "conditions": [{"source": "page", "key": "pagename", "op": "traversal"}],
+      "mode": "block",
+      "source": "https://wordpress.org/documentation/wordpress-version/version-7-1-2/"
+    },
+    {
+      "id": "CVE-2023-28121",
+      "component": "woocommerce-payments/woocommerce-payments.php",
+      "ranges": [
+        ["4.8", true, "4.8.2", false], ["4.9", true, "4.9.1", false],
+        ["5.0", true, "5.0.4", false], ["5.1", true, "5.1.3", false],
+        ["5.2", true, "5.2.2", false], ["5.3", true, "5.3.1", false],
+        ["5.4", true, "5.4.1", false], ["5.5", true, "5.5.2", false],
+        ["5.6", true, "5.6.2", false]
+      ],
+      "route": "any",
+      "methods": [],
+      "conditions": [{"source": "header", "key": "X-Wcpay-Platform-Checkout-User", "op": "present"}],
+      "mode": "observe",
+      "source": "https://developer.woocommerce.com/2023/03/23/critical-vulnerability-detected-in-woocommerce-payments-what-you-need-to-know/"
+    },
+    {
+      "id": "CVE-2026-3335",
+      "component": "canto/canto.php",
+      "route": "plugin",
+      "endpoint": "canto/includes/lib/copy-media.php",
+      "ranges": [["*", true, "3.1.1", true]],
+      "methods": ["POST"],
+      "conditions": [
+        {"source": "post", "key": "fbc_flight_domain", "op": "present"},
+        {"source": "post", "key": "fbc_app_api", "op": "present"}
+      ],
+      "mode": "observe",
+      "source": "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/canto/canto-311-missing-authorization-to-unauthenticated-file-upload"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+/output/
+/.site-defense-release-*/
+*.zip
+*.sig
+*.key
+*.log
+.env
+.env.*
+wp-config.php
+__pycache__/

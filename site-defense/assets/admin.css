@@ -1,0 +1,149 @@
+.site-defense .sd-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-block: 12px 22px;
+    padding: 0;
+}
+
+.site-defense .sd-tabs .nav-tab {
+    float: none;
+    margin: 0 0 -1px;
+}
+
+.site-defense form {
+    margin-block: 0.75rem;
+}
+
+.site-defense .sd-setting {
+    margin-block: 0.5rem;
+}
+
+.site-defense .sd-email-events {
+    display: grid;
+    gap: 0.5rem;
+    margin-block: 1rem;
+}
+
+.site-defense .sd-email-events legend {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.site-defense .sd-confirmation {
+    margin-block: 0.5rem;
+}
+
+.site-defense .sd-confirmation summary {
+    list-style: none;
+    white-space: normal;
+}
+
+.site-defense .sd-confirmation summary::-webkit-details-marker {
+    display: none;
+}
+
+.site-defense .sd-confirm-close,
+.site-defense .sd-confirmation[open] .sd-confirm-open {
+    display: none;
+}
+
+.site-defense .sd-confirmation[open] .sd-confirm-close {
+    display: inline;
+}
+
+.site-defense .sd-confirm-body {
+    max-inline-size: 24rem;
+}
+
+.site-defense .sd-confirm-body p {
+    margin-block: 0.5rem;
+}
+
+.site-defense .sd-db-findings {
+    table-layout: fixed;
+}
+
+.site-defense .sd-db-findings th:first-child {
+    width: 42%;
+}
+
+.site-defense .sd-db-findings th:nth-child(2) {
+    width: 23%;
+}
+
+.site-defense .sd-db-findings td > .sd-confirmation {
+    margin: 0;
+}
+
+.site-defense td,
+.site-defense code {
+    overflow-wrap: anywhere;
+}
+
+.site-defense .sd-table {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.site-defense pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.site-defense .sd-findings td:first-child {
+    min-width: 13rem;
+}
+
+.site-defense .sd-findings td:nth-child(2) {
+    min-width: 20rem;
+}
+
+.site-defense .sd-findings pre {
+    white-space: pre-wrap;
+}
+
+.sd-audit-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: 0.75rem;
+    max-width: 54rem;
+    margin-block: 1rem;
+}
+
+.sd-audit-metrics div {
+    display: grid;
+    gap: 0.35rem;
+    border: 1px solid #c3c4c7;
+    padding: 0.75rem 1rem;
+}
+
+.sd-audit-metrics strong {
+    font-size: 1.35rem;
+    line-height: 1.2;
+}
+
+@media (max-width: 600px) {
+    .site-defense .sd-tabs .nav-tab {
+        margin-bottom: 0;
+        border-bottom: 1px solid #c3c4c7;
+    }
+
+    .site-defense .sd-tabs .nav-tab-active {
+        box-shadow: inset 0 -2px var(--wp-admin-theme-color);
+    }
+
+    .site-defense input:not([type="checkbox"]):not([type="hidden"]) {
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .site-defense .sd-table table {
+        min-width: 25rem;
+    }
+
+    .site-defense .sd-table .sd-db-findings {
+        min-width: 35rem;
+    }
+}
+
