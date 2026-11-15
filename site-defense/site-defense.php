@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Site Defense
  * Description: Local WordPress login protection, vulnerability checks and file monitoring.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Update URI: https://github.com/KITH-web-studio/kith-site-defense
  * Requires at least: 6.8
  * Requires PHP: 8.2

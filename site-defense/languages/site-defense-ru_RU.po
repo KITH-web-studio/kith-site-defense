@@ -1,7 +1,7 @@
 # Site Defense translations.
 msgid ""
 msgstr ""
-"Project-Id-Version: Site Defense 1.0.0\n"
+"Project-Id-Version: Site Defense 1.0.1\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
