@@ -2650,3 +2650,18 @@ msgstr "Усі інциденти"
 
 msgid "Review required"
 msgstr "Потрібна перевірка"
+
+msgid "Delivery status"
+msgstr "Стан доставлення"
+
+msgid "Firewall rule packages"
+msgstr "Пакети правил WAF"
+
+msgid "Login address"
+msgstr "Адреса входу"
+
+msgid "Scan details and signatures"
+msgstr "Деталі сканування та сигнатури"
+
+msgid "Vulnerability database and sources"
+msgstr "База та джерела вразливостей"

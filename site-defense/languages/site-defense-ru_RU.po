@@ -2647,3 +2647,18 @@ msgstr "Все инциденты"
 
 msgid "Review required"
 msgstr "Требуется проверка"
+
+msgid "Delivery status"
+msgstr "Статус доставки"
+
+msgid "Firewall rule packages"
+msgstr "Пакеты правил WAF"
+
+msgid "Login address"
+msgstr "Адрес входа"
+
+msgid "Scan details and signatures"
+msgstr "Детали сканирования и сигнатуры"
+
+msgid "Vulnerability database and sources"
+msgstr "База и источники уязвимостей"

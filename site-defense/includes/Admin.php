@@ -56,7 +56,7 @@ final class Admin
         });
         add_action('admin_enqueue_scripts', static function (string $screen): void {
             if ($screen === 'toplevel_page_site-defense') {
-                wp_enqueue_style('site-defense-admin', plugins_url('assets/admin.css', SITE_DEFENSE_DIR . '/site-defense.php'), [], '1.0.1');
+                wp_enqueue_style('site-defense-admin', plugins_url('assets/admin.css', SITE_DEFENSE_DIR . '/site-defense.php'), [], '1.0.2');
             }
         });
         add_action('admin_post_sd_action', [self::class, 'action']);
@@ -366,7 +366,8 @@ final class Admin
     {
         nocache_headers();
         State::log('two_factor', 'Two-factor authentication enabled for user #' . get_current_user_id(), true, ['user_id' => get_current_user_id()]);
-        $body = '<p>' . esc_html__('Save these recovery codes now. Each can be used once.', 'site-defense') . '</p><ul>';
+        $body = '<h1>' . esc_html__('Two-factor recovery codes', 'site-defense') . '</h1><p>' .
+            esc_html__('Save these recovery codes now. Each can be used once.', 'site-defense') . '</p><ul>';
         foreach ($codes as $code) {
             $body .= '<li><code>' . esc_html($code) . '</code></li>';
         }
@@ -376,7 +377,8 @@ final class Admin
 
     private static function form(string $task, string $fields, string $label, bool $multipart = false, bool $primary = false, string $selection = ''): void
     {
-        echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '"' . ($multipart ? ' enctype="multipart/form-data"' : '') . '>';
+        echo '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '"' .
+            ($multipart ? ' class="sd-upload" enctype="multipart/form-data"' : '') . '>';
         echo '<input type="hidden" name="action" value="sd_action"><input type="hidden" name="task" value="' . esc_attr($task) . '">';
         wp_nonce_field('sd_' . $task . ($selection === '' ? '' : ':' . $selection));
         if ($selection !== '') {
@@ -389,6 +391,21 @@ final class Admin
     private static function time(int $timestamp): string
     {
         return $timestamp ? wp_date(get_option('date_format') . ' ' . get_option('time_format'), $timestamp) : __('Never', 'site-defense');
+    }
+
+    private static function panel(string $title, string $id = ''): void
+    {
+        echo '<section class="sd-panel"' . ($id !== '' ? ' aria-labelledby="' . esc_attr($id) . '"' : '') .
+            '><h2' . ($id !== '' ? ' id="' . esc_attr($id) . '"' : '') . '>' . esc_html($title) . '</h2>';
+    }
+
+    private static function metrics(array $values): void
+    {
+        echo '<dl class="sd-metrics">';
+        foreach ($values as $label => $value) {
+            echo '<div><dt>' . esc_html($label) . '</dt><dd>' . esc_html(number_format_i18n($value)) . '</dd></div>';
+        }
+        echo '</dl>';
     }
 
     public static function page(): void
@@ -416,14 +433,15 @@ final class Admin
             };
         }
         echo '<div class="wrap site-defense' . ($tab === 'database' ? ' sd-db-audit' : '') . '"><h1>Site Defense</h1>';
-        echo '<nav class="nav-tab-wrapper sd-tabs" aria-label="Site Defense">';
+        echo '<nav class="sd-tabs" aria-label="Site Defense">';
         foreach ($tabs as $id => $label) {
             $active = $id === $tab;
-            echo '<a class="nav-tab' . ($active ? ' nav-tab-active' : '') . '" href="' . esc_url(self::url($id)) . '"' .
+            echo '<a href="' . esc_url(self::url($id)) . '"' .
                 ($active ? ' aria-current="page"' : '') . '>' . esc_html($label) . '</a>';
         }
         echo '</nav>';
         self::notice();
+        echo '<div class="sd-workspace">';
         switch ($tab) {
             case 'firewall':
                 self::firewallRules();
@@ -446,7 +464,7 @@ final class Admin
                 if ($quarantine) {
                     self::quarantine();
                 } elseif ($canQuarantine) {
-                    echo '<p>' . esc_html__('Quarantine storage is unavailable.', 'site-defense') . '</p>';
+                    echo '<p class="sd-panel">' . esc_html__('Quarantine storage is unavailable.', 'site-defense') . '</p>';
                 }
                 self::fileMonitoring();
                 break;
@@ -454,13 +472,10 @@ final class Admin
                 self::databaseAudit();
                 break;
             case 'incidents':
-                echo '<div class="sd-incident-workspace">';
                 self::responseMode();
                 self::incidents();
-                echo '<div class="sd-incident-history">';
                 self::timeline();
                 self::journal();
-                echo '</div></div>';
                 break;
             case 'notifications':
                 self::notifications();
@@ -470,7 +485,7 @@ final class Admin
                 self::settings();
                 break;
         }
-        echo '</div>';
+        echo '</div></div>';
     }
 
     private static function notice(): void
@@ -478,7 +493,7 @@ final class Admin
         $notice = get_transient('sd_notice_' . get_current_user_id());
         delete_transient('sd_notice_' . get_current_user_id());
         if ($notice) {
-            echo '<div class="notice notice-info"><p>' . esc_html(translate($notice, 'site-defense')) . '</p></div>';
+            echo '<div class="notice notice-info sd-notice" role="status"><p>' . esc_html(translate($notice, 'site-defense')) . '</p></div>';
         }
     }
 
@@ -494,33 +509,31 @@ final class Admin
         $findings = $report['findings'] ?? [];
         $total = array_sum($report['counts'] ?? []);
         $skipped = array_sum($report['skipped'] ?? []);
-        echo '<h2>' . esc_html__('Database audit', 'site-defense') . '</h2>';
+        self::panel(__('Database audit', 'site-defense'));
         echo '<p>' . esc_html__('Review privileged accounts, WP-Cron, stored scripts and redirects.', 'site-defense') . '</p>';
-        echo '<p><strong>' . esc_html($status) . '</strong> · ' . esc_html(self::time((int) ($report['finished'] ?? 0))) . '</p>';
+        echo '<p><strong class="sd-status">' . esc_html($status) . '</strong> · ' . esc_html(self::time((int) ($report['finished'] ?? 0))) . '</p>';
         if (($report['status'] ?? '') === 'running') {
             echo '<p>' . esc_html__('The audit is running in the background. Refresh this page for progress.', 'site-defense') . '</p>';
             echo '<p><a class="button" href="' . esc_url(self::url('database')) . '">' . esc_html__('Refresh results', 'site-defense') . '</a></p>';
         } else {
             self::form('db_start', '', __('Start database audit', 'site-defense'), false, true);
         }
-        echo '<div class="sd-audit-metrics">';
-        foreach ([
+        self::metrics([
             __('Records and scheduled events checked', 'site-defense') => array_sum($report['checked'] ?? []),
             __('Findings', 'site-defense') => $total,
             __('Skipped by audit limits', 'site-defense') => $skipped,
-        ] as $label => $count) {
-            echo '<div><strong>' . esc_html(number_format_i18n($count)) . '</strong><span>' . esc_html($label) . '</span></div>';
-        }
-        echo '</div>';
+        ]);
         if ($total > count($findings)) {
             echo '<p>' . esc_html__('The report lists the first 500 findings. The counters include all matches.', 'site-defense') . '</p>';
         }
         if ($skipped) {
             echo '<p>' . esc_html__('Some values exceeded the audit limits. The WP-CLI status lists skipped values by source.', 'site-defense') . '</p>';
         }
-        echo '<h2 id="sd-db-findings">' . esc_html__('Database findings', 'site-defense') . '</h2>';
+        echo '</section>';
+        self::panel(__('Database findings', 'site-defense'), 'sd-db-findings');
         echo '<p>' . esc_html__('A finding needs review. Some plugins register their cron callbacks only in certain requests.', 'site-defense') . '</p>';
         self::databaseFindings($findings);
+        echo '</section>';
         self::databaseTrusted();
     }
 
@@ -533,23 +546,23 @@ final class Admin
         $page = max(1, min((int) ceil(count($findings) / DbAudit::PAGE_SIZE), absint(State::field($_GET, 'db_page'))));
         $trusted = DbAudit::trusted();
         echo '<div class="sd-table" tabindex="0" role="region" aria-label="' . esc_attr__('Database findings', 'site-defense') . '">';
-        echo '<table class="widefat striped sd-db-findings"><thead><tr><th scope="col">' . esc_html__('Finding', 'site-defense') . '</th>';
-        echo '<th scope="col">' . esc_html__('Location', 'site-defense') . '</th><th scope="col">' . esc_html__('Actions', 'site-defense') . '</th></tr></thead><tbody>';
+        echo '<table class="widefat striped sd-db-findings sd-action-table" role="table"><thead role="rowgroup"><tr role="row"><th role="columnheader" scope="col">' . esc_html__('Finding', 'site-defense') . '</th>';
+        echo '<th role="columnheader" scope="col">' . esc_html__('Location', 'site-defense') . '</th><th role="columnheader" scope="col">' . esc_html__('Actions', 'site-defense') . '</th></tr></thead><tbody role="rowgroup">';
         foreach (array_slice($findings, ($page - 1) * DbAudit::PAGE_SIZE, DbAudit::PAGE_SIZE) as $row) {
             $id = $row['id'];
-            echo '<tr><td>' . esc_html(DbAudit::findingLabel($row['type'])) . '</td>';
+            echo '<tr role="row"><td role="cell">' . esc_html(DbAudit::findingLabel($row['type'])) . '</td>';
             $location = $row['source'] === 'cron' ? 'WP-Cron' : $row['source'];
             if ($id) {
                 $location .= ' · ' . ($row['source'] === 'cron' ? self::time($id) : '#' . $id);
             }
-            echo '<td><code>' . esc_html($row['location']) . '</code><br>' . esc_html($location);
+            echo '<td role="cell"><code>' . esc_html($row['location']) . '</code><br>' . esc_html($location);
             if (!empty($row['roles'])) {
                 echo '<br>' . esc_html(implode(', ', array_map([State::class, 'roleLabel'], $row['roles'])));
             }
             if ($row['object_id']) {
                 echo '<br>' . esc_html(sprintf(__('Post #%d', 'site-defense'), $row['object_id']));
             }
-            echo '</td><td>';
+            echo '</td><td role="cell">';
             if (isset($row['fingerprint']) && current_user_can('promote_users')) {
                 if (($trusted[$id]['fingerprint'] ?? '') === $row['fingerprint']) {
                     echo esc_html__('Confirmed', 'site-defense');
@@ -572,32 +585,38 @@ final class Admin
 
     private static function databaseTrusted(): void
     {
-        echo '<h2>' . esc_html__('Confirmed accounts', 'site-defense') . '</h2>';
+        self::panel(__('Confirmed accounts', 'site-defense'));
         echo '<p>' . esc_html__('Confirm accounts you recognize. Changed privileges appear in the next audit.', 'site-defense') . '</p>';
         foreach (DbAudit::trusted() as $id => $row) {
-            echo '<p><code>' . esc_html($row['login']) . '</code> #' . esc_html((string) $id) . '</p>';
+            echo '<div class="sd-record"><p><code>' . esc_html($row['login']) . '</code> #' . esc_html((string) $id) . '</p>';
             if (current_user_can('promote_users')) {
                 self::fileConfirmation('db_untrust', (string) $id,
                     __('Confirm removing the account approval', 'site-defense'), __('Remove confirmation', 'site-defense'));
             }
+            echo '</div>';
         }
+        echo '</section>';
     }
 
     private static function settings(): void
     {
         $settings = State::settings();
-        echo '<h2>' . esc_html__('Protection settings', 'site-defense') . '</h2>';
+        echo '<div class="sd-protection-layout"><div class="sd-workspace">';
+        self::panel(__('Protection settings', 'site-defense'));
         $html = '<p>' . esc_html__('WordPress can expose public authors through REST. Hiding profiles reduces account discovery. Login throttling applies independently.', 'site-defense') . '</p>';
-        $html .= '<p><label>' . esc_html__('Trusted reverse proxy IP', 'site-defense') . ' <input name="proxy" value="' . esc_attr($settings['proxy']) . '"></label>';
-        $html .= ' ' . esc_html__('Only set this for a proxy that overwrites X-Real-IP on every request.', 'site-defense') . '</p>';
+        $html .= '<label class="sd-field">' . esc_html__('Trusted reverse proxy IP', 'site-defense') . ' <input name="proxy" value="' . esc_attr($settings['proxy']) . '" aria-describedby="sd-proxy-help"></label>';
+        $html .= '<p id="sd-proxy-help" class="sd-hint">' . esc_html__('Only set this for a proxy that overwrites X-Real-IP on every request.', 'site-defense') . '</p>';
         self::settingsForm('protection', __('Save protection settings', 'site-defense'), $html);
-        echo '<h3>' . esc_html__('Plugin update channel', 'site-defense') . '</h3>';
-        $channel = '<p><label for="sd-plugin-channel">' . esc_html__('Show updates for', 'site-defense') . ' </label>' .
+        echo '</section>';
+        self::panel(__('Plugin update channel', 'site-defense'));
+        $channel = '<label class="sd-field" for="sd-plugin-channel">' . esc_html__('Show updates for', 'site-defense') . ' ' .
             '<select id="sd-plugin-channel" name="channel">' .
             '<option value="stable"' . selected(PluginUpdates::includesCandidates(), false, false) . '>' . esc_html__('Stable releases', 'site-defense') . '</option>' .
-            '<option value="rc"' . selected(PluginUpdates::includesCandidates(), true, false) . '>' . esc_html__('Stable releases and release candidates', 'site-defense') . '</option></select></p>';
+            '<option value="rc"' . selected(PluginUpdates::includesCandidates(), true, false) . '>' . esc_html__('Stable releases and release candidates', 'site-defense') . '</option></select></label>';
         self::form('plugin_channel', $channel, __('Save update channel', 'site-defense'));
-        echo '<h3>' . esc_html__('Configuration checks', 'site-defense') . '</h3><ul>';
+        echo '</section></div>';
+        self::panel(__('Configuration checks', 'site-defense'));
+        echo '<dl class="sd-data-list">';
         $checks = [
             __('PHP editor available to this account', 'site-defense') => current_user_can('edit_plugins') || current_user_can('edit_themes'),
             __('HTTPS detected for the dashboard', 'site-defense') => is_ssl(),
@@ -606,12 +625,14 @@ final class Admin
             __('PHP displays errors', 'site-defense') => filter_var(ini_get('display_errors'), FILTER_VALIDATE_BOOLEAN),
         ];
         foreach ($checks as $label => $enabled) {
-            echo '<li>' . esc_html($label) . ' — ' . ($enabled ? esc_html__('Yes', 'site-defense') : esc_html__('No', 'site-defense')) . '</li>';
+            echo '<div><dt>' . esc_html($label) . '</dt><dd>' . ($enabled ? esc_html__('Yes', 'site-defense') : esc_html__('No', 'site-defense')) . '</dd></div>';
         }
         $debug = (array) get_option('sd_debug_probe', []);
-        echo '<li>' . esc_html__('Debug log HTTP check', 'site-defense') . ' — ' . esc_html(translate($debug['result'] ?? 'Not checked', 'site-defense')) . '</li></ul>';
+        echo '<div><dt>' . esc_html__('Debug log HTTP check', 'site-defense') . '</dt><dd>' .
+            esc_html(translate($debug['result'] ?? 'Not checked', 'site-defense')) . '</dd></div></dl>';
         echo '<p>' . esc_html__('For HTTPS enforcement and PHP error display, check the hosting configuration and wp-config.php.', 'site-defense') . '</p>';
         self::form('debug', '', __('Check debug log access', 'site-defense'));
+        echo '</section></div>';
     }
 
     private static function settingsForm(string $group, string $submit, string $extra = ''): void
@@ -628,38 +649,48 @@ final class Admin
     private static function notifications(): void
     {
         $email = State::settings();
-        echo '<h2>' . esc_html__('Email', 'site-defense') . '</h2>';
-        $html = '<p><label>' . esc_html__('Notification email', 'site-defense') . ' <input type="email" name="email" value="' . esc_attr($email['email']) . '"></label></p>';
-        $html .= '<fieldset class="sd-email-events"><legend>' . esc_html__('Email events', 'site-defense') . '</legend>';
+        self::panel(__('Email', 'site-defense'));
+        $html = '<label class="sd-field">' . esc_html__('Notification email', 'site-defense') . ' <input type="email" name="email" value="' . esc_attr($email['email']) . '"></label>';
+        $events = esc_html__('Email events', 'site-defense');
+        $html .= '<details class="sd-disclosure"><summary>' . $events . '</summary>' .
+            '<fieldset class="sd-email-events"><legend class="screen-reader-text">' . $events . '</legend>';
         foreach (self::MAIL_EVENTS as $kind => $label) {
             $html .= '<label><input type="checkbox" name="notify_types[]" value="' . esc_attr($kind) . '"' .
                 checked(in_array($kind, $email['notify_types'], true), true, false) . '> ' . esc_html(translate($label, 'site-defense')) . '</label>';
         }
-        self::settingsForm('notifications', __('Save email settings', 'site-defense'), $html . '</fieldset>');
+        self::settingsForm('notifications', __('Save email settings', 'site-defense'), $html . '</fieldset></details>');
+        echo '</section>';
         $settings = Alerts::config();
-        echo '<h2>' . esc_html__('Notification channels', 'site-defense') . '</h2>';
+        self::panel(__('Notification channels', 'site-defense'));
         echo '<p>' . esc_html__('Email uses the event selection above. New vulnerabilities are sent through email and Telegram. Blocked attempts are grouped into five-minute summaries.', 'site-defense') . '</p>';
-        $html = '<p><label><input type="checkbox" name="telegram"' . checked($settings['telegram'], true, false) . '> ' . esc_html__('Send to Telegram', 'site-defense') . '</label></p>';
-        $html .= '<p><label>' . esc_html__('Telegram bot token', 'site-defense') . ' <input type="password" name="telegram_token" autocomplete="new-password" value=""></label> ';
-        $html .= esc_html($settings['token'] !== '' ? __('A token is stored. Leave blank to keep it.', 'site-defense') : __('Enter the bot token from BotFather.', 'site-defense')) . '</p>';
+        $html = '<div class="sd-split sd-channels"><fieldset><legend>Telegram</legend>';
+        $html .= '<p><label><input type="checkbox" name="telegram"' . checked($settings['telegram'], true, false) . '> ' . esc_html__('Send to Telegram', 'site-defense') . '</label></p>';
+        $html .= '<label class="sd-field">' . esc_html__('Telegram bot token', 'site-defense') . ' <input type="password" name="telegram_token" autocomplete="new-password" value="" aria-describedby="sd-telegram-token-help"></label>';
+        $html .= '<p id="sd-telegram-token-help" class="sd-hint">' . esc_html($settings['token'] !== '' ?
+            __('A token is stored. Leave blank to keep it.', 'site-defense') : __('Enter the bot token from BotFather.', 'site-defense')) . '</p>';
         $html .= '<p><label><input type="checkbox" name="clear_token"> ' . esc_html__('Remove stored Telegram token', 'site-defense') . '</label></p>';
-        $html .= '<p><label>' . esc_html__('Telegram chat ID', 'site-defense') . ' <input name="telegram_chat" value="' . esc_attr($settings['chat']) . '"></label></p>';
+        $html .= '<label class="sd-field">' . esc_html__('Telegram chat ID', 'site-defense') . ' <input name="telegram_chat" value="' . esc_attr($settings['chat']) . '"></label>';
+        $html .= '</fieldset><fieldset><legend>Webhook</legend>';
         $html .= '<p><label><input type="checkbox" name="webhook"' . checked($settings['webhook'], true, false) . '> ' . esc_html__('Send to a signed webhook', 'site-defense') . '</label></p>';
-        $html .= '<p><label>' . esc_html__('Webhook HTTPS URL', 'site-defense') . ' <input type="url" name="webhook_url" value="' . esc_attr($settings['url']) . '"></label></p>';
-        $html .= '<p><label>' . esc_html__('Webhook signing secret', 'site-defense') . ' <input type="password" name="webhook_secret" autocomplete="new-password" value=""></label> ';
-        $html .= esc_html($settings['secret'] !== '' ? __('A secret is stored. Leave blank to keep it.', 'site-defense') : __('Set a signing secret shared with your receiver.', 'site-defense')) . '</p>';
+        $html .= '<label class="sd-field">' . esc_html__('Webhook HTTPS URL', 'site-defense') . ' <input type="url" name="webhook_url" value="' . esc_attr($settings['url']) . '"></label>';
+        $html .= '<label class="sd-field">' . esc_html__('Webhook signing secret', 'site-defense') . ' <input type="password" name="webhook_secret" autocomplete="new-password" value="" aria-describedby="sd-webhook-secret-help"></label>';
+        $html .= '<p id="sd-webhook-secret-help" class="sd-hint">' . esc_html($settings['secret'] !== '' ?
+            __('A secret is stored. Leave blank to keep it.', 'site-defense') : __('Set a signing secret shared with your receiver.', 'site-defense')) . '</p>';
         $html .= '<p><label><input type="checkbox" name="clear_secret"> ' . esc_html__('Remove stored webhook secret', 'site-defense') . '</label></p>';
-        self::form('channels', $html, __('Save notification channels', 'site-defense'));
+        self::form('channels', $html . '</fieldset></div>', __('Save notification channels', 'site-defense'), primary: true);
+        echo '</section>';
+        self::panel(__('Delivery status', 'site-defense'));
         self::form('test_channels', '', __('Send test notification', 'site-defense'));
         echo '<p>' . esc_html__('Delivery runs in the background with retries. Use a system scheduler every minute for predictable response time.', 'site-defense') . '</p>';
         echo '<p><code>wp cron event run --due-now --path=/path/to/wordpress</code></p>';
         $last = (int) get_option('sd_alert_worker', 0);
         echo '<p>' . esc_html__('Last notification worker run', 'site-defense') . ' — ' . esc_html(self::time($last)) . '</p>';
+        echo '</section>';
     }
 
     private static function fileMonitoring(): void
     {
-        echo '<h2>' . esc_html__('File monitoring', 'site-defense') . '</h2>';
+        self::panel(__('File monitoring', 'site-defense'));
         self::settingsForm('files', __('Save file monitoring settings', 'site-defense'));
         $watch = (array) get_option('sd_watch', []);
         echo '<p>' . esc_html__('Last completed file change check', 'site-defense') . ' — ' . esc_html(self::time((int) ($watch['completed'] ?? 0))) . '</p>';
@@ -667,6 +698,7 @@ final class Admin
             echo '<p>' . esc_html__('The file check is taking longer than five minutes. Review scheduler activity and site size.', 'site-defense') . '</p>';
         }
         self::form('watch_now', '', __('Check file changes now', 'site-defense'));
+        echo '</section>';
     }
 
     private static function responseAction(string $task, int $user): string
@@ -786,14 +818,14 @@ final class Admin
     {
         $config = Heartbeat::config();
         $status = Heartbeat::status();
-        echo '<h2>' . esc_html__('External heartbeat', 'site-defense') . '</h2>';
+        self::panel(__('External heartbeat', 'site-defense'));
         echo '<p>' . esc_html__('Send a signed signal about WordPress task health every five minutes. Run the receiver separately so it can report missed signals.', 'site-defense') . '</p>';
         $fields = '<p><label><input type="checkbox" name="heartbeat_enabled"' . checked($config['enabled'], true, false) .
             '> ' . esc_html__('Enable external heartbeat', 'site-defense') . '</label></p>';
-        $fields .= '<p><label>' . esc_html__('Receiver HTTPS address', 'site-defense') . '<br><input type="url" name="heartbeat_url" class="regular-text" value="' .
-            esc_attr($config['url']) . '"></label></p>';
-        $fields .= '<p><label>' . esc_html__('Heartbeat signing secret', 'site-defense') .
-            '<br><input type="password" name="heartbeat_secret" class="regular-text" autocomplete="new-password" maxlength="128"></label></p>';
+        $fields .= '<label class="sd-field">' . esc_html__('Receiver HTTPS address', 'site-defense') . '<input type="url" name="heartbeat_url" value="' .
+            esc_attr($config['url']) . '"></label>';
+        $fields .= '<label class="sd-field">' . esc_html__('Heartbeat signing secret', 'site-defense') .
+            '<input type="password" name="heartbeat_secret" autocomplete="new-password" maxlength="128"></label>';
         if ($config['secret'] !== '') {
             $fields .= '<p>' . esc_html__('A secret is stored. Leave blank to keep it.', 'site-defense') . '</p>';
             $fields .= '<p><label><input type="checkbox" name="heartbeat_clear"> ' . esc_html__('Remove stored heartbeat secret', 'site-defense') . '</label></p>';
@@ -806,15 +838,16 @@ final class Admin
             }
             self::form('heartbeat_send', '', __('Send heartbeat now', 'site-defense'));
         }
+        echo '</section>';
     }
 
     private static function timeline(): void
     {
         $rows = Timeline::read(24, 50);
-        echo '<h2>' . esc_html__('Incident timeline', 'site-defense') . '</h2>';
+        self::panel(__('Incident timeline', 'site-defense'));
         echo '<p>' . esc_html__('Latest 50 relevant events in the past 24 hours.', 'site-defense') . ' <code>wp site-defense timeline</code></p>';
         if (!$rows) {
-            echo '<p>' . esc_html__('No timeline events recorded.', 'site-defense') . '</p>';
+            echo '<p>' . esc_html__('No timeline events recorded.', 'site-defense') . '</p></section>';
             return;
         }
         echo '<div class="sd-table" tabindex="0" role="region" aria-label="' . esc_attr__('Incident timeline', 'site-defense') . '"><table class="widefat striped"><thead><tr>';
@@ -831,7 +864,7 @@ final class Admin
             }
             echo '</td></tr>';
         }
-        echo '</tbody></table></div>';
+        echo '</tbody></table></div></section>';
     }
 
     private static function incidents(): void
@@ -930,40 +963,35 @@ final class Admin
 
     private static function earlyProtection(): void
     {
-        echo '<h2>' . esc_html__('Early protection', 'site-defense') . '</h2>';
+        self::panel(__('Early protection', 'site-defense'));
         echo '<p>' . esc_html__('The early loader checks requests before WordPress starts and blocks PHP execution in uploads. It uses .user.ini on CGI/FastCGI hosting.', 'site-defense') . '</p>';
         $verified = (array) get_option('sd_early_verified', []);
         echo '<p>' . esc_html(!empty($verified['ok']) ? __('Early protection verified.', 'site-defense') : __('Early protection has not been verified.', 'site-defense')) . '</p>';
         if (Quarantine::available()) {
             $task = get_option('sd_early_enabled') ? 'early_disable' : 'early_install';
             $label = $task === 'early_install' ? __('Configure early protection', 'site-defense') : __('Disable early protection', 'site-defense');
+            echo '<div class="sd-action-row">';
             self::fileConfirmation($task, '', __('Confirm changing the managed .user.ini and uploads .htaccess blocks', 'site-defense'), $label);
             self::form('early_verify', '', __('Verify early protection', 'site-defense'));
+            echo '</div>';
         }
-        echo '<details><summary>' . esc_html__('Nginx configuration', 'site-defense') . '</summary><p>';
+        echo '<details class="sd-disclosure"><summary>' . esc_html__('Nginx configuration', 'site-defense') . '</summary><p>';
         echo esc_html__('For Nginx, apply this rule before the general PHP location and reload the server configuration.', 'site-defense') . '</p>';
-        echo '<pre><code>' . esc_html(EarlyProtection::nginxSnippet()) . '</code></pre></details>';
+        echo '<pre><code>' . esc_html(EarlyProtection::nginxSnippet()) . '</code></pre></details></section>';
     }
 
     private static function firewallRules(): void
     {
         $status = Firewall::status();
-        echo '<h2>' . esc_html__('Firewall settings', 'site-defense') . '</h2>';
+        self::panel(__('Firewall settings', 'site-defense'));
         self::settingsForm('firewall', __('Save firewall settings', 'site-defense'));
-        echo '<h2 id="sd-firewall-rules">' . esc_html__('Targeted firewall rules', 'site-defense') . '</h2>';
+        echo '</section>';
+        self::panel(__('Targeted firewall rules', 'site-defense'), 'sd-firewall-rules');
         echo '<p>' . esc_html__('Firewall rule version', 'site-defense') . ' — ' . esc_html((string) $status['version']) . '</p>';
         if (!$status['enabled']) {
             echo '<p>' . esc_html__('Firewall rules are disabled.', 'site-defense') . '</p>';
         }
         $manage = Quarantine::available();
-        if ($manage) {
-            self::form('rules_import', '<label>' . esc_html__('Signed firewall rule package', 'site-defense') .
-                ' <input type="file" name="rules" accept=".pack" required></label>', __('Import firewall rules', 'site-defense'), true);
-            if ($status['previous_version'] !== null) {
-                self::fileConfirmation('rules_rollback', '', sprintf(__('Restore firewall package %d', 'site-defense'), $status['previous_version']),
-                    __('Roll back firewall package', 'site-defense'));
-            }
-        }
         $modes = [
             'observe' => __('Observe', 'site-defense'),
             'block' => __('Block', 'site-defense'),
@@ -971,15 +999,15 @@ final class Admin
         ];
         echo '<p>' . esc_html__('Observe records matches and allows the request to continue. Block returns HTTP 403.', 'site-defense') . '</p>';
         echo '<div class="sd-table" tabindex="0" role="region" aria-label="' . esc_attr__('Targeted firewall rules', 'site-defense') . '">';
-        echo '<table class="widefat striped"><thead><tr><th scope="col">' . esc_html__('Rule', 'site-defense') . '</th>';
-        echo '<th scope="col">' . esc_html__('Component', 'site-defense') . '</th><th scope="col">' . esc_html__('Route', 'site-defense') . '</th>';
-        echo '<th scope="col">' . esc_html__('Mode', 'site-defense') . '</th></tr></thead><tbody>';
+        echo '<table class="widefat striped sd-waf-rules sd-action-table" role="table"><thead role="rowgroup"><tr role="row"><th role="columnheader" scope="col">' . esc_html__('Rule', 'site-defense') . '</th>';
+        echo '<th role="columnheader" scope="col">' . esc_html__('Component', 'site-defense') . '</th><th role="columnheader" scope="col">' . esc_html__('Route', 'site-defense') . '</th>';
+        echo '<th role="columnheader" scope="col">' . esc_html__('Mode', 'site-defense') . '</th></tr></thead><tbody role="rowgroup">';
         foreach ($status['rules'] as $rule) {
             $applicability = $rule['affected'] ? __('Affected version', 'site-defense')
                 : ($rule['version'] === '' ? __('Version unavailable', 'site-defense') : __('Outside affected versions', 'site-defense'));
-            echo '<tr><td><a href="' . esc_url($rule['source']) . '">' . esc_html($rule['id']) . '</a></td>';
-            echo '<td><code>' . esc_html($rule['component'] . ' ' . $rule['version']) . '</code><br>' . esc_html($applicability) . '</td>';
-            echo '<td><code>' . esc_html($rule['route']) . '</code></td><td>';
+            echo '<tr role="row"><td role="cell"><a href="' . esc_url($rule['source']) . '">' . esc_html($rule['id']) . '</a></td>';
+            echo '<td role="cell"><code>' . esc_html($rule['component'] . ' ' . $rule['version']) . '</code><br>' . esc_html($applicability) . '</td>';
+            echo '<td role="cell"><code>' . esc_html($rule['route']) . '</code></td><td role="cell">';
             if ($manage) {
                 $fields = '<input type="hidden" name="rule_id" value="' . esc_attr($rule['id']) .
                     '"><label><span class="screen-reader-text">' . esc_html(__('Mode', 'site-defense') . ' ' . $rule['id']) . '</span><select name="mode">';
@@ -993,14 +1021,27 @@ final class Admin
             echo '</td></tr>';
         }
         echo '</tbody></table></div>';
+        if ($manage) {
+            echo '<details class="sd-disclosure"><summary>' . esc_html__('Firewall rule packages', 'site-defense') . '</summary>';
+            self::form('rules_import', '<label class="sd-field">' . esc_html__('Signed firewall rule package', 'site-defense') .
+                ' <input type="file" name="rules" accept=".pack" required></label>', __('Import firewall rules', 'site-defense'), true);
+            if ($status['previous_version'] !== null) {
+                self::fileConfirmation('rules_rollback', '', sprintf(__('Restore firewall package %d', 'site-defense'), $status['previous_version']),
+                    __('Roll back firewall package', 'site-defense'));
+            }
+            echo '</details>';
+        }
+        echo '</section>';
     }
 
     private static function login(): void
     {
-        echo '<h2>' . esc_html__('Login', 'site-defense') . '</h2>';
+        self::panel(__('Login', 'site-defense'));
         $hint = '<p>' . esc_html__('Mandatory two-factor protection is off by default. When enabled, privileged users must enroll at their next sign-in. Existing sessions without a second factor lose privileged access.', 'site-defense') . '</p>';
         self::settingsForm('login', __('Save login settings', 'site-defense'), $hint);
         self::form('clear_limits', '', __('Reset login limits', 'site-defense'));
+        echo '</section><div class="sd-split">';
+        self::panel(__('Login address', 'site-defense'));
         $active = get_option('sd_login_route', '');
         $pending = get_option('sd_pending_route', []);
         if ($active) {
@@ -1012,20 +1053,22 @@ final class Admin
             self::form('cancel_route', '', __('Cancel pending address', 'site-defense'));
         }
         echo '<p>' . esc_html__('If you lose access, deactivate Site Defense via WP-CLI or rename its plugin directory in your hosting file manager.', 'site-defense') . '</p>';
-        self::form('route', '<label>' . esc_html__('New login path', 'site-defense') . ' <input name="slug" pattern="[a-z0-9][a-z0-9\-]{3,59}" required></label>', __('Test new address', 'site-defense'));
-        echo '<h3>' . esc_html__('Two-factor authentication', 'site-defense') . '</h3>';
+        self::form('route', '<label class="sd-field">' . esc_html__('New login path', 'site-defense') . ' <input name="slug" pattern="[a-z0-9][a-z0-9\-]{3,59}" required></label>', __('Test new address', 'site-defense'));
+        echo '</section>';
+        self::panel(__('Two-factor authentication', 'site-defense'));
         $id = get_current_user_id();
         $enrollment = get_transient('sd_enroll_' . $id);
         if (get_user_meta($id, '_sd_totp', true)) {
-            self::form('disable_totp', '<label>' . esc_html__('Current password', 'site-defense') . ' <input name="password" type="password" autocomplete="current-password" required></label>', __('Disable for my account', 'site-defense'));
+            self::form('disable_totp', '<label class="sd-field">' . esc_html__('Current password', 'site-defense') . ' <input name="password" type="password" autocomplete="current-password" required></label>', __('Disable for my account', 'site-defense'));
         } elseif (!is_ssl() || !function_exists('sodium_crypto_secretbox')) {
             echo '<p>' . esc_html__('Two-factor enrollment requires HTTPS and PHP Sodium.', 'site-defense') . '</p>';
         } elseif ($enrollment) {
             echo '<p>' . esc_html__('Use time-based codes. Setup key', 'site-defense') . ' <code>' . esc_html(TwoFactor::base32($enrollment)) . '</code></p>';
-            self::form('confirm_totp', '<label>' . esc_html__('Authenticator code', 'site-defense') . ' <input name="code" inputmode="numeric" pattern="[0-9]{6}" required></label>', __('Verify and enable for my account', 'site-defense'));
+            self::form('confirm_totp', '<label class="sd-field">' . esc_html__('Authenticator code', 'site-defense') . ' <input name="code" inputmode="numeric" pattern="[0-9]{6}" required></label>', __('Verify and enable for my account', 'site-defense'));
         } else {
             self::form('setup_totp', '', __('Set up for my account', 'site-defense'));
         }
+        echo '</section></div>';
     }
 
     private static function vulnerabilities(): void
@@ -1033,10 +1076,16 @@ final class Admin
         global $wp_version;
         $findings = (array) get_option('sd_findings', []);
         $feed = (array) get_option('sd_feed_status', []);
-        echo '<h2>' . esc_html__('Known vulnerabilities', 'site-defense') . '</h2>';
-        echo '<p>' . esc_html__('Database published', 'site-defense') . ' — ' . esc_html(self::time(Vulnerabilities::version())) . '<br>';
-        echo esc_html__('Last completed comparison', 'site-defense') . ' — ' . esc_html(self::time((int) ($findings['checked'] ?? 0))) . '<br>';
-        echo esc_html__('Last successful update check', 'site-defense') . ' — ' . esc_html(self::time((int) ($feed['success'] ?? 0))) . '</p>';
+        self::panel(__('Known vulnerabilities', 'site-defense'));
+        echo '<dl class="sd-data-list">';
+        foreach ([
+            __('Database published', 'site-defense') => Vulnerabilities::version(),
+            __('Last completed comparison', 'site-defense') => (int) ($findings['checked'] ?? 0),
+            __('Last successful update check', 'site-defense') => (int) ($feed['success'] ?? 0),
+        ] as $label => $stamp) {
+            echo '<div><dt>' . esc_html($label) . '</dt><dd>' . esc_html(self::time($stamp)) . '</dd></div>';
+        }
+        echo '</dl>';
         if (!empty($feed['message'])) {
             echo '<p>' . esc_html(translate($feed['message'], 'site-defense')) . '</p>';
         }
@@ -1045,15 +1094,53 @@ final class Admin
             $coverage = __('Installed components with advisory records — %1$s of %2$s', 'site-defense');
             echo '<p>' . esc_html(sprintf($coverage, number_format_i18n($findings['covered']), number_format_i18n($findings['components']))) . '</p>';
         }
+        self::form('check', '', __('Check installed versions', 'site-defense'), primary: true);
+        if (!empty($findings['items'])) {
+            echo '<div class="sd-table" tabindex="0" role="region" aria-label="' . esc_attr__('Known vulnerabilities', 'site-defense') . '">';
+            echo '<table class="widefat striped"><thead><tr>';
+            echo '<th>' . esc_html__('Component', 'site-defense') . '</th><th>' . esc_html__('Advisory', 'site-defense') . '</th>';
+            echo '<th>' . esc_html__('Affected range', 'site-defense') . '</th><th>' . esc_html__('Fixed in', 'site-defense') . '</th>';
+            echo '<th>' . esc_html__('Rule', 'site-defense') . '</th></tr></thead><tbody>';
+            foreach ($findings['items'] as $row) {
+                echo '<tr><td>' . esc_html($row['key'] . ' ' . $row['version'] . ($row['active'] ? '' : ' ' . __('(inactive)', 'site-defense'))) . '</td>';
+                $label = ($row['cve'] ?: $row['id']) . ' · ' . $row['title'];
+                if (!empty($row['informational'])) {
+                    $label .= ' · ' . __('Informational', 'site-defense');
+                }
+                if ($row['score'] !== null) {
+                    $label .= ' · CVSS ' . $row['score'];
+                }
+                echo '<td>' . ($row['link'] ? '<a href="' . esc_url($row['link']) . '">' . esc_html($label) . '</a>' : esc_html($label));
+                echo '<br><small>' . esc_html($row['source'] ?? 'Wordfence') . '</small>';
+                if (!empty($row['kev']) && State::enabled('kev_auto')) {
+                    echo '<br><strong class="sd-status sd-status--attention">' . esc_html__('Known exploitation · CISA KEV', 'site-defense') . '</strong>';
+                }
+                echo '</td>';
+                if (isset($row['bounds'])) {
+                    $range = implode(' · ', array_map(static fn ($bound) => $bound[1] . ' ' . $bound[0], $row['bounds']));
+                } else {
+                    [$low, $includeLow, $high, $includeHigh] = $row['range'];
+                    $range = ($includeLow ? '[' : '(') . $low . ', ' . $high . ($includeHigh ? ']' : ')');
+                }
+                echo '<td>' . esc_html($range) . '</td>';
+                echo '<td>' . esc_html(implode(', ', $row['fixed']) ?: __('Unknown', 'site-defense')) . '</td>';
+                echo '<td>' . esc_html($row['key'] === 'core:wordpress' && $row['cve'] === 'CVE-2026-87902' && Vulnerabilities::coreRuleActive($wp_version)
+                    ? __('Active on WordPress page routing', 'site-defense') : __('No active rule', 'site-defense')) . '</td></tr>';
+            }
+            echo '</tbody></table></div>';
+        } elseif (!empty($findings['version'])) {
+            echo '<p class="sd-empty">' . esc_html__('No matching advisories in the last comparison.', 'site-defense') . '</p>';
+        }
+        echo '</section>';
+        self::panel(__('Vulnerability database and sources', 'site-defense'));
         if (!Vulnerabilities::version()) {
             echo '<p>' . esc_html__('No database is installed. Import a signed database package to enable version matching.', 'site-defense') . '</p>';
         }
         if (!Vulnerabilities::hasUpdateEndpoint()) {
             echo '<p>' . esc_html__('Use a signed package to update the database manually.', 'site-defense') . '</p>';
         }
-        self::form('check', '', __('Check installed versions', 'site-defense'));
         self::form('update', '', __('Update database now', 'site-defense'));
-        self::form('import', '<label>' . esc_html__('Signed database package', 'site-defense') . ' <input type="file" name="package" accept=".pack" required></label>', __('Import database', 'site-defense'), true);
+        self::form('import', '<label class="sd-field">' . esc_html__('Signed database package', 'site-defense') . ' <input type="file" name="package" accept=".pack" required></label>', __('Import database', 'site-defense'), true);
         $hint = '<p>' . esc_html__('WPVulnerability requests use plugin and theme identifiers. Version comparison runs locally and keeps the last successful API response.', 'site-defense') . '</p>';
         self::settingsForm('vulnerabilities', __('Save update settings', 'site-defense'), $hint);
         if (State::enabled('wpvulnerability')) {
@@ -1075,42 +1162,7 @@ final class Admin
             }
             self::form('kev_refresh', '', __('Update CISA KEV now', 'site-defense'));
         }
-        if (!empty($findings['items'])) {
-            echo '<div class="sd-table" tabindex="0" role="region" aria-label="' . esc_attr__('Known vulnerabilities', 'site-defense') . '">';
-            echo '<table class="widefat striped"><thead><tr>';
-            echo '<th>' . esc_html__('Component', 'site-defense') . '</th><th>' . esc_html__('Advisory', 'site-defense') . '</th>';
-            echo '<th>' . esc_html__('Affected range', 'site-defense') . '</th><th>' . esc_html__('Fixed in', 'site-defense') . '</th>';
-            echo '<th>' . esc_html__('Rule', 'site-defense') . '</th></tr></thead><tbody>';
-            foreach ($findings['items'] as $row) {
-                echo '<tr><td>' . esc_html($row['key'] . ' ' . $row['version'] . ($row['active'] ? '' : ' ' . __('(inactive)', 'site-defense'))) . '</td>';
-                $label = ($row['cve'] ?: $row['id']) . ' · ' . $row['title'];
-                if (!empty($row['informational'])) {
-                    $label .= ' · ' . __('Informational', 'site-defense');
-                }
-                if ($row['score'] !== null) {
-                    $label .= ' · CVSS ' . $row['score'];
-                }
-                echo '<td>' . ($row['link'] ? '<a href="' . esc_url($row['link']) . '">' . esc_html($label) . '</a>' : esc_html($label));
-                echo '<br><small>' . esc_html($row['source'] ?? 'Wordfence') . '</small>';
-                if (!empty($row['kev']) && State::enabled('kev_auto')) {
-                    echo '<br><strong>' . esc_html__('Known exploitation · CISA KEV', 'site-defense') . '</strong>';
-                }
-                echo '</td>';
-                if (isset($row['bounds'])) {
-                    $range = implode(' · ', array_map(static fn ($bound) => $bound[1] . ' ' . $bound[0], $row['bounds']));
-                } else {
-                    [$low, $includeLow, $high, $includeHigh] = $row['range'];
-                    $range = ($includeLow ? '[' : '(') . $low . ', ' . $high . ($includeHigh ? ']' : ')');
-                }
-                echo '<td>' . esc_html($range) . '</td>';
-                echo '<td>' . esc_html(implode(', ', $row['fixed']) ?: __('Unknown', 'site-defense')) . '</td>';
-                echo '<td>' . esc_html($row['key'] === 'core:wordpress' && $row['cve'] === 'CVE-2026-87902' && Vulnerabilities::coreRuleActive($wp_version)
-                    ? __('Active on WordPress page routing', 'site-defense') : __('No active rule', 'site-defense')) . '</td></tr>';
-            }
-            echo '</tbody></table></div>';
-        } elseif (!empty($findings['version'])) {
-            echo '<p>' . esc_html__('No matching advisories in the last comparison.', 'site-defense') . '</p>';
-        }
+        echo '</section>';
     }
 
     private static function repairAction(string $task, string $selection, int $user): string
@@ -1156,7 +1208,7 @@ final class Admin
         if (!$plan) {
             return;
         }
-        echo '<h2>' . esc_html__('File repair preview', 'site-defense') . '</h2>';
+        self::panel(__('File repair preview', 'site-defense'));
         echo '<p><code>' . esc_html($plan['path']) . '</code></p>';
         echo '<p>' . esc_html(sprintf(__('Installed component: %1$s %2$s', 'site-defense'), $plan['component'], $plan['version']));
         echo $plan['locale'] !== '' ? ' · ' . esc_html($plan['locale']) . '</p>' : '</p>';
@@ -1174,6 +1226,7 @@ final class Admin
         self::fileConfirmation('repair_apply', $plan['id'], __('Keep the original in quarantine and replace this file with the verified copy?', 'site-defense'),
             __('Replace with verified file', 'site-defense'));
         self::form('repair_discard', '', __('Discard repair preview', 'site-defense'), selection: $plan['id']);
+        echo '</section>';
     }
 
     private static function scanner(bool $quarantine): void
@@ -1186,51 +1239,68 @@ final class Admin
             'complete' => __('Complete', 'site-defense'),
             default => __('Not started', 'site-defense'),
         };
-        echo '<h2 id="sd-scanner">' . esc_html__('File scan', 'site-defense') . '</h2>';
+        self::panel(__('File scan', 'site-defense'), 'sd-scanner');
         echo '<p>' . esc_html__('The full scan covers the site directory and configured external WordPress directories. Content checks apply to every file extension.', 'site-defense') . '</p>';
-        echo '<p>' . esc_html__('Status', 'site-defense') . ' — ' . esc_html($statusLabel) . '<br>' . esc_html__('Last completed scan', 'site-defense') . ' — ' . esc_html(self::time((int) ($scan['last_success'] ?? 0))) . '<br>';
-        echo esc_html__('Files inspected', 'site-defense') . ' — ' . esc_html(number_format_i18n((int) ($scan['files'] ?? 0))) . ' · ';
-        echo esc_html__('Findings', 'site-defense') . ' — ' . esc_html(number_format_i18n((int) ($scan['finding_count'] ?? 0))) . '</p>';
-        echo '<p>' . esc_html__('Skipped or partially checked items', 'site-defense') . ' — ' . esc_html(number_format_i18n((int) ($scan['skipped_count'] ?? 0))) . ' · ';
-        echo esc_html__('Excluded by hash', 'site-defense') . ' — ' . esc_html(number_format_i18n((int) ($scan['excluded_count'] ?? 0))) . '<br>';
-        echo esc_html__('Scan worker time, seconds', 'site-defense') . ' — ' . esc_html(number_format_i18n((float) ($scan['duration'] ?? 0), 2)) . ' · ';
-        echo esc_html__('Peak process memory', 'site-defense') . ' — ' . esc_html(size_format((int) ($scan['peak_memory'] ?? 0))) . '<br>';
-        echo esc_html__('Bytes read', 'site-defense') . ' — ' . esc_html(size_format((int) ($scan['bytes'] ?? 0))) . '</p>';
+        echo '<p><strong class="sd-status">' . esc_html($statusLabel) . '</strong> · ';
+        echo esc_html__('Last completed scan', 'site-defense') . ' — ' . esc_html(self::time((int) ($scan['last_success'] ?? 0))) . '</p>';
+        self::metrics([
+            __('Files inspected', 'site-defense') => (int) ($scan['files'] ?? 0),
+            __('Findings', 'site-defense') => (int) ($scan['finding_count'] ?? 0),
+            __('Skipped or partially checked items', 'site-defense') => (int) ($scan['skipped_count'] ?? 0),
+        ]);
         if (!empty($scan['report_error'])) {
             echo '<p>' . esc_html__('Some skipped items could not be saved. The coverage report is incomplete.', 'site-defense') . '</p>';
         }
         if (($scan['finding_count'] ?? 0) > count($scan['findings'] ?? [])) {
             echo '<p>' . esc_html__('The results list contains the first 500 findings. The total count includes all recorded findings.', 'site-defense') . '</p>';
         }
-        echo '<p>' . esc_html__('Malware signature version', 'site-defense') . ' — ' . esc_html((string) Malware::rules()['version']) . '</p>';
-        echo '<p>' . esc_html__('Signatures used by this scan', 'site-defense') . ' — ' . esc_html((string) ($scan['signature_version'] ?? 0)) . '</p>';
-        if (current_user_can('update_plugins')) {
-            self::form('malware_import', '<label>' . esc_html__('Signed malware signature package', 'site-defense') . ' <input type="file" name="malware_package" accept=".pack" required></label>', __('Import malware signatures', 'site-defense'), true);
-        }
         if ($status === 'running' && time() - max($scan['last_run'] ?? 0, $scan['started'] ?? 0) > 300) {
             echo '<p>' . esc_html__('Waiting for WP-Cron. Check the site scheduler if progress stays paused.', 'site-defense') . '</p>';
         }
+        echo '<div class="sd-action-row">';
         if ($status === 'running') {
             self::form('cancel', '', __('Pause scan', 'site-defense'));
         } else {
-            self::form('start', '', __('Start scan', 'site-defense'));
             if ($status === 'paused') {
-                self::form('resume', '', __('Resume scan', 'site-defense'));
+                self::form('resume', '', __('Resume scan', 'site-defense'), primary: true);
             }
+            self::form('start', '', __('Start scan', 'site-defense'), primary: $status !== 'paused');
         }
+        echo '<a href="#sd-skipped">' . esc_html__('Skipped or partially checked items', 'site-defense') . '</a>';
+        if ($quarantine) {
+            echo '<a href="#sd-quarantine">' . esc_html__('Quarantine', 'site-defense') . '</a>';
+        }
+        echo '</div><details class="sd-disclosure"><summary>' . esc_html__('Scan details and signatures', 'site-defense') . '</summary>';
+        echo '<dl class="sd-data-list">';
+        foreach ([
+            __('Excluded by hash', 'site-defense') => number_format_i18n((int) ($scan['excluded_count'] ?? 0)),
+            __('Scan worker time, seconds', 'site-defense') => number_format_i18n((float) ($scan['duration'] ?? 0), 2),
+            __('Peak process memory', 'site-defense') => size_format((int) ($scan['peak_memory'] ?? 0)),
+            __('Bytes read', 'site-defense') => size_format((int) ($scan['bytes'] ?? 0)),
+            __('Malware signature version', 'site-defense') => (string) Malware::rules()['version'],
+            __('Signatures used by this scan', 'site-defense') => (string) ($scan['signature_version'] ?? 0),
+        ] as $label => $value) {
+            echo '<div><dt>' . esc_html($label) . '</dt><dd>' . esc_html($value) . '</dd></div>';
+        }
+        echo '</dl>';
+        if (current_user_can('update_plugins')) {
+            self::form('malware_import', '<label class="sd-field">' . esc_html__('Signed malware signature package', 'site-defense') . ' <input type="file" name="malware_package" accept=".pack" required></label>', __('Import malware signatures', 'site-defense'), true);
+        }
+        echo '</details></section>';
         if (!empty($scan['findings'])) {
+            self::panel(__('File scan findings', 'site-defense'));
             echo '<div class="sd-table sd-findings" tabindex="0" role="region" aria-label="' . esc_attr__('File scan findings', 'site-defense') . '">';
-            echo '<table class="widefat striped"><thead><tr><th>' . esc_html__('Finding', 'site-defense') . '</th>';
-            echo '<th>' . esc_html__('File or component', 'site-defense') . '</th>';
+            echo '<table class="widefat striped sd-action-table" role="table"><thead role="rowgroup"><tr role="row"><th role="columnheader">' . esc_html__('Finding', 'site-defense') . '</th>';
+            echo '<th role="columnheader">' . esc_html__('File or component', 'site-defense') . '</th>';
             if ($quarantine) {
-                echo '<th>' . esc_html__('Actions', 'site-defense') . '</th>';
+                echo '<th role="columnheader">' . esc_html__('Actions', 'site-defense') . '</th>';
             }
-            echo '</tr></thead><tbody>';
+            echo '</tr></thead><tbody role="rowgroup">';
             $offered = [];
             foreach ($scan['findings'] as $row) {
                 [$finding, $path] = $row;
                 $details = $row[3] ?? [];
-                echo '<tr><td>' . esc_html(translate($finding, 'site-defense'));
+                echo '<tr role="row"><td role="cell">' . esc_html(translate($finding, 'site-defense'));
                 if (!empty($details['reason'])) {
                     echo '<p>' . esc_html(translate($details['reason'], 'site-defense')) . '</p>';
                 }
@@ -1240,7 +1310,7 @@ final class Admin
                 if (!empty($details['rule_id'])) {
                     echo '<code>' . esc_html($details['rule_id']) . '</code>';
                 }
-                echo '</td><td><code>' . esc_html($path) . '</code>';
+                echo '</td><td role="cell"><code>' . esc_html($path) . '</code>';
                 if (!empty($details['line'])) {
                     echo '<p>' . esc_html__('Line', 'site-defense') . ' ' . esc_html((string) $details['line']) . '</p>';
                 }
@@ -1249,7 +1319,7 @@ final class Admin
                 }
                 echo '</td>';
                 if ($quarantine) {
-                    echo '<td>';
+                    echo '<td role="cell">';
                     if (FileRepair::canPreview($row)) {
                         self::form('repair_preview', '', __('Preview file repair', 'site-defense'), selection: Quarantine::selector($row));
                     }
@@ -1266,14 +1336,14 @@ final class Admin
                 }
                 echo '</tr>';
             }
-            echo '</tbody></table></div>';
+            echo '</tbody></table></div></section>';
         }
         self::scanCoverage($scan);
     }
 
     private static function scanCoverage(array $scan): void
     {
-        echo '<h3 id="sd-skipped">' . esc_html__('Skipped or partially checked items', 'site-defense') . '</h3>';
+        self::panel(__('Skipped or partially checked items', 'site-defense'), 'sd-skipped');
         echo '<p>' . esc_html__('Files larger than 64 MiB and symbolic links are skipped. PHP token analysis may be partial when memory or complexity limits are reached. Archives are checked as raw files.', 'site-defense') . '</p>';
         $page = max(1, min(100000, absint(State::field($_GET, 'skip_page'))));
         $rows = ScanReport::skippedPage($scan, $page);
@@ -1297,32 +1367,38 @@ final class Admin
             }
             echo '</p>';
         } else {
-            echo '<p>' . esc_html__('No skipped items recorded on this page.', 'site-defense') . '</p>';
+            echo '<p class="sd-empty">' . esc_html__('No skipped items recorded on this page.', 'site-defense') . '</p>';
         }
-        echo '<h3>' . esc_html__('Hash exclusions', 'site-defense') . '</h3><p>' . esc_html__('An exclusion applies only while the file SHA-256 matches. Changed files are analyzed again.', 'site-defense') . '</p>';
-        foreach (ScanReport::exclusions() as $key => $entry) {
+        echo '</section>';
+        $exclusions = ScanReport::exclusions();
+        self::panel(__('Hash exclusions', 'site-defense'));
+        echo '<p>' . esc_html__('An exclusion applies only while the file SHA-256 matches. Changed files are analyzed again.', 'site-defense') . '</p>';
+        foreach ($exclusions as $key => $entry) {
+            echo '<div class="sd-record">';
             echo '<p><code>' . esc_html($entry['path']) . '</code><br><code>' . esc_html($entry['sha256']) . '</code></p>';
             if (Quarantine::available()) {
                 self::fileConfirmation('remove_exclusion', $key, __('Confirm removing this hash exclusion', 'site-defense'), __('Remove exclusion', 'site-defense'));
             }
+            echo '</div>';
         }
+        echo '</section>';
     }
 
     private static function quarantine(): void
     {
         $page = max(1, min(100000, absint(State::field($_GET, 'quarantine_page'))));
         $entries = Quarantine::entries($page);
-        echo '<h2 id="sd-quarantine">' . esc_html__('Quarantine', 'site-defense') . '</h2>';
+        self::panel(__('Quarantine', 'site-defense'), 'sd-quarantine');
         if (!$entries) {
-            echo '<p>' . esc_html__('No files in quarantine.', 'site-defense') . '</p>';
+            echo '<p class="sd-empty">' . esc_html__('No files in quarantine.', 'site-defense') . '</p>';
         } else {
             echo '<p>' . esc_html__('Quarantined copies are stored in the database. Restore a file only if you trust it.', 'site-defense') . '</p>';
             echo '<div class="sd-table" tabindex="0" role="region" aria-label="' . esc_attr__('Quarantine', 'site-defense') . '">';
-            echo '<table class="widefat striped"><thead><tr><th>' . esc_html__('Original file', 'site-defense') . '</th>';
-            echo '<th>' . esc_html__('Quarantined on', 'site-defense') . '</th><th>' . esc_html__('Actions', 'site-defense') . '</th></tr></thead><tbody>';
+            echo '<table class="widefat striped sd-action-table" role="table"><thead role="rowgroup"><tr role="row"><th role="columnheader">' . esc_html__('Original file', 'site-defense') . '</th>';
+            echo '<th role="columnheader">' . esc_html__('Quarantined on', 'site-defense') . '</th><th role="columnheader">' . esc_html__('Actions', 'site-defense') . '</th></tr></thead><tbody role="rowgroup">';
             foreach (array_slice($entries, 0, Quarantine::PAGE_SIZE) as $entry) {
-                echo '<tr><td><code>' . esc_html($entry['path']) . '</code><br>' . esc_html(size_format((int) $entry['bytes'])) . '</td>';
-                echo '<td>' . esc_html(self::time((int) $entry['created'])) . '</td><td>';
+                echo '<tr role="row"><td role="cell"><code>' . esc_html($entry['path']) . '</code><br>' . esc_html(size_format((int) $entry['bytes'])) . '</td>';
+                echo '<td role="cell">' . esc_html(self::time((int) $entry['created'])) . '</td><td role="cell">';
                 if ($entry['state'] === 'repaired') {
                     echo '<p>' . esc_html(sprintf(__('Copy made before repair · #%d', 'site-defense'), $entry['id'])) . '</p>';
                     self::fileConfirmation('repair_undo', (string) $entry['id'],
@@ -1344,6 +1420,7 @@ final class Admin
         if (count($entries) > Quarantine::PAGE_SIZE) {
             echo '<p><a href="' . esc_url(add_query_arg('quarantine_page', $page + 1) . '#sd-quarantine') . '">' . esc_html__('Older quarantined files', 'site-defense') . '</a></p>';
         }
+        echo '</section>';
     }
 
     private static function fileConfirmation(string $task, string $selection, string $confirmation, string $label, string $fields = ''): void
@@ -1359,7 +1436,7 @@ final class Admin
 
     private static function access(): void
     {
-        echo '<h2 id="sd-privileged-access">' . esc_html__('Privileged access', 'site-defense') . '</h2>';
+        self::panel(__('Privileged access', 'site-defense'), 'sd-privileged-access');
         $page = max(1, absint(State::field($_GET, 'accounts_page')));
         $candidateRoles = [];
         foreach (wp_roles()->roles as $name => $role) {
@@ -1380,7 +1457,7 @@ final class Admin
             if (!Hardening::privileged($user)) {
                 continue;
             }
-            echo '<h3>' . esc_html($user->display_name . ' (#' . $user->ID . ')') . '</h3>';
+            echo '<div class="sd-record"><h3>' . esc_html($user->display_name . ' (#' . $user->ID . ')') . '</h3>';
             echo '<p>' . esc_html(implode(', ', array_map([State::class, 'roleLabel'], $user->roles))) . '</p>';
             foreach (\WP_Application_Passwords::get_user_application_passwords($user->ID) as $item) {
                 echo '<p>' . esc_html($item['name'] . ' · ' . __('Last used', 'site-defense') . ' ' . self::time((int) $item['last_used'])) . '</p>';
@@ -1391,6 +1468,7 @@ final class Admin
                     self::fileConfirmation('revoke', '', __('Confirm revocation', 'site-defense'), __('Revoke application password', 'site-defense'), $fields);
                 }
             }
+            echo '</div>';
         }
         if ($page > 1) {
             echo '<p><a href="' . esc_url(add_query_arg('accounts_page', $page - 1)) . '">' . esc_html__('Previous accounts', 'site-defense') . '</a></p>';
@@ -1398,6 +1476,7 @@ final class Admin
         if ($query->get_total() > $page * 30) {
             echo '<p><a href="' . esc_url(add_query_arg('accounts_page', $page + 1)) . '">' . esc_html__('Next accounts', 'site-defense') . '</a></p>';
         }
+        echo '</section>';
     }
 
     private static function journal(): void
@@ -1406,7 +1485,7 @@ final class Admin
         $table = State::table('events');
         $page = max(1, min(200, absint(State::field($_GET, 'journal_page'))));
         $rows = $wpdb->get_results($wpdb->prepare("SELECT occurred, kind, detail FROM $table ORDER BY id DESC LIMIT 51 OFFSET %d", ($page - 1) * 50), ARRAY_A);
-        echo '<h2>' . esc_html__('Recent security events', 'site-defense') . '</h2>';
+        self::panel(__('Recent security events', 'site-defense'));
         echo '<div class="sd-table" tabindex="0" role="region" aria-label="' . esc_attr__('Recent security events', 'site-defense') . '">';
         echo '<table class="widefat striped"><thead><tr><th>' . esc_html__('When', 'site-defense') . '</th>';
         echo '<th>' . esc_html__('Event', 'site-defense') . '</th><th>' . esc_html__('Details', 'site-defense') . '</th></tr></thead><tbody>';
@@ -1420,6 +1499,7 @@ final class Admin
         if (count($rows ?: []) > 50) {
             echo '<p><a href="' . esc_url(add_query_arg('journal_page', $page + 1)) . '">' . esc_html__('Older events', 'site-defense') . '</a></p>';
         }
+        echo '</section>';
     }
 }
 

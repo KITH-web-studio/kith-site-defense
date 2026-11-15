@@ -1,0 +1,75 @@
+.login #login .sd-login-panel {
+    margin-block-start: 16px;
+    padding: 20px;
+    border: 1px solid #dcdcde;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: none;
+}
+
+.login .sd-login-panel h2 {
+    margin: 0 0 14px;
+    font-size: 18px;
+    line-height: 1.35;
+}
+
+.login .sd-login-panel p + p {
+    margin-block-start: 10px;
+}
+
+.login .sd-login-panel label {
+    display: block;
+    margin-block-end: 5px;
+}
+
+.login .sd-login-panel input.input {
+    font-size: 18px;
+}
+
+.login .sd-login-panel .button {
+    box-sizing: border-box;
+    inline-size: 100%;
+    min-block-size: 38px;
+    padding: 6px 10px;
+    line-height: 1.4;
+    text-align: center;
+    white-space: normal;
+}
+
+.login .sd-login-key code {
+    overflow-wrap: anywhere;
+}
+
+.login .sd-recovery-codes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-block: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+    body.login:has(.sd-login-panel) {
+        background: #1d2327;
+    }
+
+    .login #login .sd-login-panel {
+        border-color: #4b535c;
+        background: #242a30;
+        color: #f1f2f3;
+        color-scheme: dark;
+    }
+
+    .login .sd-login-panel :is(h2, label) {
+        color: inherit;
+    }
+
+    .login .sd-login-panel :is(input.input, code) {
+        border-color: #4b535c;
+        background: #30373e;
+        color: #f1f2f3;
+    }
+
+    .login:has(.sd-login-panel) :is(#nav, #backtoblog, .privacy-policy-page-link) a {
+        color: #aad2f6;
+    }
+}

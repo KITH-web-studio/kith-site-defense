@@ -168,6 +168,9 @@ final class TwoFactor
         if (!is_array($pending) || !isset($pending['id'])) {
             wp_die(esc_html__('This verification has expired. Sign in again.', 'site-defense'), '', ['response' => 403]);
         }
+        add_action('login_enqueue_scripts', static function (): void {
+            wp_enqueue_style('site-defense-login', plugins_url('assets/login.css', SITE_DEFENSE_DIR . '/site-defense.php'), ['login'], '1.0.0');
+        });
         $error = '';
         if (State::field($_SERVER, 'REQUEST_METHOD') === 'POST') {
             if (!hash_equals(Login::key('form|' . $token), State::field($_POST, 'sd_challenge'))) {
@@ -201,11 +204,12 @@ final class TwoFactor
                 if ($codes) {
                     State::log('two_factor', 'Two-factor authentication enabled for user #' . $user->ID, true, ['user_id' => $user->ID]);
                     login_header(__('Two-factor recovery codes', 'site-defense'));
-                    echo '<p>' . esc_html__('Save these recovery codes now. Each can be used once.', 'site-defense') . '</p><ul>';
+                    echo '<section class="sd-login-panel"><h2>' . esc_html__('Two-factor recovery codes', 'site-defense') . '</h2>';
+                    echo '<p>' . esc_html__('Save these recovery codes now. Each can be used once.', 'site-defense') . '</p><ul class="sd-recovery-codes">';
                     foreach ($codes as $recovery) {
                         echo '<li><code>' . esc_html($recovery) . '</code></li>';
                     }
-                    echo '</ul><p><a class="button button-primary" href="' . esc_url($pending['redirect']) . '">' . esc_html__('Continue', 'site-defense') . '</a></p>';
+                    echo '</ul><p><a class="button button-primary" href="' . esc_url($pending['redirect']) . '">' . esc_html__('Continue', 'site-defense') . '</a></p></section>';
                     login_footer();
                     exit;
                 }
@@ -215,14 +219,15 @@ final class TwoFactor
             $error = __('The code is invalid or has already been used.', 'site-defense');
         }
         login_header(__('Two-factor authentication', 'site-defense'), '', $error ? new \WP_Error('sd_totp', $error) : null);
+        echo '<form class="sd-login-panel" method="post"><h2>' . esc_html__('Two-factor authentication', 'site-defense') . '</h2>';
         if (!empty($pending['enroll'])) {
             echo '<p>' . esc_html__('Your site requires a second factor for privileged access. Add this setup key to your authenticator and enter its code.', 'site-defense') . '</p>';
-            echo '<p><code>' . esc_html(self::base32($pending['setup'])) . '</code></p>';
+            echo '<p class="sd-login-key"><code>' . esc_html(self::base32($pending['setup'])) . '</code></p>';
         }
-        echo '<form method="post"><p><label for="sd-code">' . esc_html__('Authenticator or recovery code', 'site-defense') . '</label>';
+        echo '<p><label for="sd-code">' . esc_html__('Authenticator or recovery code', 'site-defense') . '</label>';
         echo '<input type="text" name="sd_code" id="sd-code" class="input" maxlength="16" autocomplete="one-time-code" required></p>';
         echo '<input type="hidden" name="sd_challenge" value="' . esc_attr(Login::key('form|' . $token)) . '">';
-        echo '<p class="submit"><button class="button button-primary button-large">' . esc_html__('Verify and sign in', 'site-defense') . '</button></p></form>';
+        echo '<p><button class="button button-primary button-large">' . esc_html__('Verify and sign in', 'site-defense') . '</button></p></form>';
         login_footer('sd-code');
         exit;
     }
