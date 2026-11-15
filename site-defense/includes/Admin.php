@@ -56,7 +56,7 @@ final class Admin
         });
         add_action('admin_enqueue_scripts', static function (string $screen): void {
             if ($screen === 'toplevel_page_site-defense') {
-                wp_enqueue_style('site-defense-admin', plugins_url('assets/admin.css', SITE_DEFENSE_DIR . '/site-defense.php'), [], '1.0.2');
+                wp_enqueue_style('site-defense-admin', plugins_url('assets/admin.css', SITE_DEFENSE_DIR . '/site-defense.php'), [], '1.0.3');
             }
         });
         add_action('admin_post_sd_action', [self::class, 'action']);
